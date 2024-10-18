@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { useTranslation } from "react-i18next";
 import { useLogin } from "../../shared/hooks/useLogin";
 import { useNavigation } from "@react-navigation/native";
-import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity";
+import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 
 export const Login = () => {
   const { t } = useTranslation();
