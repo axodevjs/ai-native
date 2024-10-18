@@ -6,10 +6,9 @@ import { Input } from "react-native-elements";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useLogin } from "../../shared/hooks/useLogin";
-import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import Text from "../../shared/ui/Text/Text";
 
-export const Login = () => {
+export const ResetPassword = () => {
   const { t } = useTranslation();
   const { email, setEmail, password, setPassword, loading, login } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
@@ -22,9 +21,8 @@ export const Login = () => {
   return (
     <SafeAreaView style={styles.container} className="flex items-center ">
       <View style={styles.innerContainer} className="mt-24">
-        <Text style={styles.title}>{t("login_title")}</Text>
-        <Text style={styles.subtitle}>{t("login_message")}</Text>
-
+        <Text style={styles.title}>{t("forgot_password_title")}</Text>
+        <Text style={styles.subtitle}>{t("forgot_password_message")}</Text>
         <View style={styles.inputContainer} className="mt-16">
           <Input
             placeholder={t("email_label")}
@@ -32,9 +30,8 @@ export const Login = () => {
             onChangeText={setEmail}
             leftIcon={<Icon name="email" size={24} color="#91BB45" />}
           />
-
           <Input
-            placeholder={t("password_label")}
+            placeholder={t("new_password_label")}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
@@ -47,14 +44,6 @@ export const Login = () => {
               />
             }
           />
-          <MyTouchableOpacity
-            onPress={() => handleNavigation("Reset")}
-            style={styles.forgotPassword}
-          >
-            <Text style={styles.forgotPasswordText}>
-              {t("forgot_password")}
-            </Text>
-          </MyTouchableOpacity>
           <Button
             mode="contained"
             style={{
@@ -75,22 +64,9 @@ export const Login = () => {
               weight="400"
               family="Nunito"
             >
-              {loading ? t("loading") : t("login_button")}
+              {loading ? t("loading") : t("reset_password_button")}
             </Text>
           </Button>
-          <View
-            style={styles.registerContainer}
-            className="flex flex-row items-center gap-x-2"
-          >
-            <Text style={styles.registerText}>{t("no_account_yet")}</Text>
-            <MyTouchableOpacity
-              onPress={() => handleNavigation("Registration")}
-            >
-              <Text className="text-main" family="Nunito">
-                {t("create_account")}
-              </Text>
-            </MyTouchableOpacity>
-          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -152,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default ResetPassword;
