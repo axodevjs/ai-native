@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { SafeAreaView, View, Text, StyleSheet } from "react-native";
-import { Input, Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { useTranslation } from "react-i18next";
-import { useLogin } from "../../shared/hooks/useLogin";
 import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Button, Input } from "react-native-elements";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { useLogin } from "../../shared/hooks/useLogin";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 
 export const Login = () => {
@@ -22,7 +22,6 @@ export const Login = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.title}>{t("login_title")}</Text>
         <Text style={styles.subtitle}>{t("login_message")}</Text>
-
         <View style={styles.inputContainer}>
           <Input
             placeholder={t("email_label")}

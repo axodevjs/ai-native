@@ -24,29 +24,21 @@ export const useLogin = () => {
         data
       );
 
-      const { accessToken, refreshToken, userId, email } = response.data;
-
-      await AsyncStorage.setItem(
-        "userData",
-        JSON.stringify({
-          accessToken,
-          refreshToken,
-          userId,
-          email,
-        })
-      );
+      const { accessToken, refreshToken, user } = response.data;
 
       const userData = {
-        id: response.data.id,
-        username: response.data.username,
-        email: response.data.email,
-        refreshToken: response.data.refreshToken,
-        accessToken: response.data.accessToken,
+        accessToken,
+        refreshToken,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        },
       };
-      AsyncStorage.setItem("userData", JSON.stringify(userData));
-      console.log(userData);
 
-      navigation.navigate("Main" as never);
+      await AsyncStorage.setItem("userData", JSON.stringify(userData));
+
+      navigation.navigate("Home" as never);
     } catch (error: any) {
       console.error("Ошибка при входе:", error.message);
       Alert.alert("Ошибка", "Ошибка при входе, проверьте данные.");
