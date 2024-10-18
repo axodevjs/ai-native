@@ -1,5 +1,3 @@
-// src/screens/ChatScreen.tsx
-import { OPENAI_API_KEY } from "@env"; // Import the API key from .env
 import axios from "axios";
 import React, { useState } from "react";
 import {
@@ -44,7 +42,7 @@ const ChatScreen: React.FC = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${OPENAI_API_KEY}`,
+            Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPEN_API_KEY}`,
             "Content-Type": "application/json",
           },
         }
@@ -98,7 +96,7 @@ const ChatScreen: React.FC = () => {
             <Text className="text-gray-500 mt-2">Получение ответа...</Text>
           </View>
         )}
-        <View className="flex-row items-center p-4 border-t border-gray-200">
+        <View className="flex-row items-center p-4 border-t border-gray-200 mb-32">
           <TextInput
             value={text}
             onChangeText={setText}
