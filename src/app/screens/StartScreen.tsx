@@ -52,8 +52,14 @@ const StartScreen = () => {
           </View>
         </View>
         <View className="flex items-center justify-center -mt-16 ">
-          <Text className="text-dark text-4xl font-bold">{t("welcome")}</Text>
-          <Text weight="800" className="text-main text-2xl font-bold mt-1">
+          <Text className="text-dark text-4xl font-bold" family="OpenSans">
+            {t("welcome")}
+          </Text>
+          <Text
+            weight="800"
+            family="OpenSans"
+            className="text-main text-3xl font-bold mt-2"
+          >
             Weight a Minute
           </Text>
         </View>
@@ -75,20 +81,31 @@ const StartScreen = () => {
               handleNavigation("Registration");
             }}
           >
-            {t("start")}
+            <Text
+              className="text-secondary text-lg"
+              weight="400"
+              family="Nunito"
+            >
+              {t("start")}
+            </Text>
           </Button>
         </View>
 
-        <View className="mt-4 gap-x-1 flex flex-row">
-          <Text className="text-dark">{t("already_have_account")}</Text>
+        <View className="mt-4 gap-x-2 flex flex-row">
+          <Text className="text-dark" family="Nunito">
+            {t("already_have_account")}
+          </Text>
           <MyTouchableOpacity onPress={() => handleNavigation("Login")}>
-            <Text className="text-main">{t("login")}</Text>
+            <Text className="text-main" family="Nunito">
+              {t("login")}
+            </Text>
           </MyTouchableOpacity>
         </View>
         <View style={styles.languageContainer}>
           <View className="flex flex-row items-center mt-4">
             <Text
-              className="mr-1"
+              family="Nunito"
+              className="mr-2"
               style={[styles.languageLabel, { color: "#2F3C33" }]}
             >
               {t("language")}

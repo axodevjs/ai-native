@@ -2,14 +2,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./src/shared/i18n/i18n";
-import React from "react";
 import Start from "./src/app/screens/StartScreen";
 import Registration from "./src/app/screens/RegistrationScreen";
 import { Login } from "./src/app/screens/LoginScreen";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
-import StartScreen from "./src/app/screens/StartScreen";
 
 const Stack = createNativeStackNavigator();
 

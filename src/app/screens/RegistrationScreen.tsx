@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, Text, StyleSheet } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { SafeAreaView, View, StyleSheet } from "react-native";
+import Text from "../../shared/ui/Text/Text";
+import { Input } from "react-native-elements";
+import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
-import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity";
+import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import { useTranslation } from "react-i18next";
 import { useRegister } from "../../shared/hooks/useRegister";
 
@@ -36,7 +38,9 @@ export const Registration = () => {
       className="flex items-center justify-center"
     >
       <View style={styles.innerContainer}>
-        <Text style={styles.title}>{t("create_account")}</Text>
+        <Text style={styles.title} weight="800" family="OpenSans">
+          {t("create_account")}
+        </Text>
         <Text style={styles.subtitle}>{t("welcome_message")}</Text>
         <View className="mt-14">
           <Input
@@ -83,19 +87,35 @@ export const Registration = () => {
             }
           />
         </View>
-
         <Button
-          title={loading ? t("loading") : t("create_account_button")}
-          buttonStyle={styles.button}
-          titleStyle={{ fontSize: 18 }}
+          mode="contained"
+          style={{
+            backgroundColor: "#91BB45",
+            width: "100%",
+            height: 50,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 50,
+          }}
+          textColor="white"
+          labelStyle={{ fontSize: 18 }}
           onPress={register}
           disabled={loading}
-        />
+        >
+          <Text className="text-secondary text-lg" weight="400" family="Nunito">
+            {loading ? t("loading") : t("create_account_button")}
+          </Text>
+        </Button>
 
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>{t("already_have_account")}</Text>
+        <View className="mt-4 gap-x-2 flex flex-row justify-center">
+          <Text className="text-dark" family="Nunito">
+            {t("already_have_account")}
+          </Text>
           <MyTouchableOpacity onPress={() => handleNavigation("Login")}>
-            <Text style={styles.footerLink}>{t("login")}</Text>
+            <Text className="text-main" family="Nunito">
+              {t("login")}
+            </Text>
           </MyTouchableOpacity>
         </View>
       </View>
