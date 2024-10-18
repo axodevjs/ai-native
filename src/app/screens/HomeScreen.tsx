@@ -1,11 +1,15 @@
 // src/screens/HomeScreen.tsx
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import Text from "../../shared/ui/Text/Text";
 import { Layout } from "../../widgets/ui/layout"; // Adjust path
 import { ConsultationCard } from "../entities/ConsulationCard/ConsultationCard";
 import { InsightCard } from "../entities/InsightCard/InsightCard";
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <Layout isProfile>
       <ScrollView className="px-4 mt-8">
@@ -38,6 +42,7 @@ const HomeScreen = () => {
         <ConsultationCard />
       </ScrollView>
     </Layout>
+
   );
 };
 
