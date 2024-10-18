@@ -3,8 +3,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
+import { I18nextProvider } from "react-i18next";
 import AgeScreen from "./src/app/screens/AgeScreen";
-import StartScreen from "./src/app/screens/StartScreen";
+import HomeScreen from "./src/app/screens/HomeScreen";
+import { Login } from "./src/app/screens/LoginScreen";
+import Registration from "./src/app/screens/RegistrationScreen";
+import Start from "./src/app/screens/StartScreen";
+import i18n from "./src/shared/i18n/i18n";
 
 const Stack = createNativeStackNavigator();
 
@@ -59,14 +64,19 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer independent>
-      <Stack.Navigator
-        initialRouteName="Start"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Start" component={StartScreen} />
-        <Stack.Screen name="Age" component={AgeScreen} />
+    <I18nextProvider i18n={i18n}>
+      <NavigationContainer independent>
+        <Stack.Navigator
+          initialRouteName="Start"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Start" component={Start} />
+          <Stack.Screen name="Registration" component={Registration} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Age" component={AgeScreen} />
       </Stack.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+    </I18nextProvider>
   );
 }
