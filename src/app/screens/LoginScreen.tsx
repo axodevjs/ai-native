@@ -1,13 +1,13 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import { Input } from "react-native-elements";
 import { Button } from "react-native-paper";
-import Text from "../../shared/ui/Text/Text";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { useTranslation } from "react-i18next";
 import { useLogin } from "../../shared/hooks/useLogin";
-import { useNavigation } from "@react-navigation/native";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
+import Text from "../../shared/ui/Text/Text";
 
 export const Login = () => {
   const { t } = useTranslation();

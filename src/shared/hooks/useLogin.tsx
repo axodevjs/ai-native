@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Alert } from "react-native";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { useState } from "react";
+import { Alert } from "react-native";
 
 export const useLogin = () => {
   const [email, setEmail] = useState<string>("");
@@ -20,33 +20,25 @@ export const useLogin = () => {
 
     try {
       const response = await axios.post(
-        "https://satbayevhack-production.up.railway.app/api/auth/login",
+        "https://goida-fuck-them-all.up.railway.app/api/user/login",
         data
       );
 
-      const { accessToken, refreshToken, userId, email } = response.data;
-
-      await AsyncStorage.setItem(
-        "userData",
-        JSON.stringify({
-          accessToken,
-          refreshToken,
-          userId,
-          email,
-        })
-      );
+      const { accessToken, refreshToken, user } = response.data;
 
       const userData = {
-        id: response.data.id,
-        username: response.data.username,
-        email: response.data.email,
-        refreshToken: response.data.refreshToken,
-        accessToken: response.data.accessToken,
+        accessToken,
+        refreshToken,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        },
       };
-      AsyncStorage.setItem("userData", JSON.stringify(userData));
-      console.log(userData);
 
-      navigation.navigate("Main" as never);
+      await AsyncStorage.setItem("userData", JSON.stringify(userData));
+
+      navigation.navigate("Home" as never);
     } catch (error: any) {
       console.error("Ошибка при входе:", error.message);
       Alert.alert("Ошибка", "Ошибка при входе, проверьте данные.");
