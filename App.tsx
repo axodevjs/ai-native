@@ -9,6 +9,8 @@ import { Login } from "./src/app/screens/LoginScreen";
 import Registration from "./src/app/screens/RegistrationScreen";
 import Start from "./src/app/screens/StartScreen";
 import i18n from "./src/shared/i18n/i18n";
+import { ArScreen } from "./src/app/screens/ar-screen";
+import ResetPassword from "./src/app/screens/reset-password";
 
 const Stack = createNativeStackNavigator();
 
@@ -71,8 +73,10 @@ export default function App() {
         >
           <Stack.Screen name="Start" component={Start} />
           <Stack.Screen name="Registration" component={Registration} />
-          <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Ar" component={ArScreen} />
+          <Stack.Screen name="Reset" component={ResetPassword} />
         </Stack.Navigator>
       </NavigationContainer>
     </I18nextProvider>
