@@ -1,6 +1,7 @@
 {
   "welcome": "Welcome",
   "start": "Start",
+  "loading": "Loading...",
   "login": "Login",
   "language": "Language",
   "already_have_account": "Already have an account?",

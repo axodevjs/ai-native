@@ -4,11 +4,16 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
+
+import { AchievementsScreen } from "./src/app/screens/AchievementsScreen";
 import AgeScreen from "./src/app/screens/AgeScreen";
+import { ArScreen } from "./src/app/screens/ar-screen";
+import ChatScreen from "./src/app/screens/ChatScreen";
 import HeightScreen from "./src/app/screens/HeightScreen";
 import HomeScreen from "./src/app/screens/HomeScreen";
 import { Login } from "./src/app/screens/LoginScreen";
 import Registration from "./src/app/screens/RegistrationScreen";
+import ResetPassword from "./src/app/screens/reset-password";
 import Start from "./src/app/screens/StartScreen";
 import WeightScreen from "./src/app/screens/WeightScreen";
 import i18n from "./src/shared/i18n/i18n";
@@ -75,10 +80,14 @@ export default function App() {
           <Stack.Screen name="Start" component={Start} />
           <Stack.Screen name="Registration" component={Registration} />
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="Achievements" component={AchievementsScreen} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Age" component={AgeScreen} />
           <Stack.Screen name="Weight" component={WeightScreen} />
           <Stack.Screen name="Height" component={HeightScreen} />
+          <Stack.Screen name="Ar" component={ArScreen} />
+          <Stack.Screen name="Reset" component={ResetPassword} />
         </Stack.Navigator>
       </NavigationContainer>
     </I18nextProvider>
