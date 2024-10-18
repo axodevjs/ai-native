@@ -1,4 +1,5 @@
 // src/screens/ChatScreen.tsx
+import { OPENAI_API_KEY } from "@env"; // Import the API key from .env
 import axios from "axios";
 import React, { useState } from "react";
 import {
@@ -43,7 +44,7 @@ const ChatScreen: React.FC = () => {
         },
         {
           headers: {
-            Authorization: `Bearer sk-V17oMMxoMjtS_FTiabQLT9Dyd2fld50YSClW-47FzET3BlbkFJ6aKiPeoVuQDBdym6Oi4lJdTt6pqu6BGwj8jjbEyS8A`,
+            Authorization: `Bearer ${OPENAI_API_KEY}`,
             "Content-Type": "application/json",
           },
         }
