@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, Text, StyleSheet } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { SafeAreaView, View, StyleSheet } from "react-native";
+import { Input } from "react-native-elements";
+import { Button } from "react-native-paper";
+import Text from "../../shared/ui/Text/Text";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useTranslation } from "react-i18next";
 import { useLogin } from "../../shared/hooks/useLogin";
@@ -18,18 +20,17 @@ export const Login = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.innerContainer}>
+    <SafeAreaView style={styles.container} className="flex items-center ">
+      <View style={styles.innerContainer} className="mt-24">
         <Text style={styles.title}>{t("login_title")}</Text>
         <Text style={styles.subtitle}>{t("login_message")}</Text>
 
-        <View style={styles.inputContainer}>
+        <View style={styles.inputContainer} className="mt-16">
           <Input
             placeholder={t("email_label")}
             value={email}
             onChangeText={setEmail}
             leftIcon={<Icon name="email" size={24} color="#91BB45" />}
-            containerStyle={styles.input}
           />
 
           <Input
@@ -45,9 +46,7 @@ export const Login = () => {
                 onPress={() => setShowPassword(!showPassword)}
               />
             }
-            containerStyle={styles.input}
           />
-
           <MyTouchableOpacity
             onPress={() => handleNavigation("ForgotPassword")}
             style={styles.forgotPassword}
@@ -56,21 +55,40 @@ export const Login = () => {
               {t("forgot_password")}
             </Text>
           </MyTouchableOpacity>
-
           <Button
-            title={t("login_button")}
+            mode="contained"
+            style={{
+              backgroundColor: "#91BB45",
+              width: "80%",
+              height: 50,
+              borderRadius: 50,
+              marginTop: 140,
+              justifyContent: "center",
+            }}
+            labelStyle={{ fontSize: 18, color: "white", textAlign: "center" }}
+            textColor="white"
             onPress={login}
-            loading={loading}
-            buttonStyle={styles.loginButton}
-            titleStyle={{ fontSize: 18 }}
-          />
-
-          <View style={styles.registerContainer}>
+            disabled={loading}
+          >
+            <Text
+              className="text-secondary text-lg"
+              weight="400"
+              family="Nunito"
+            >
+              {loading ? t("loading") : t("login_button")}
+            </Text>
+          </Button>
+          <View
+            style={styles.registerContainer}
+            className="flex flex-row items-center gap-x-2"
+          >
             <Text style={styles.registerText}>{t("no_account_yet")}</Text>
             <MyTouchableOpacity
               onPress={() => handleNavigation("Registration")}
             >
-              <Text style={styles.registerLink}>{t("create_account")}</Text>
+              <Text className="text-main" family="Nunito">
+                {t("create_account")}
+              </Text>
             </MyTouchableOpacity>
           </View>
         </View>
@@ -87,24 +105,22 @@ const styles = StyleSheet.create({
   innerContainer: {
     width: "90%",
     alignSelf: "center",
-    marginTop: 56,
   },
   title: {
-    fontSize: 28,
+    fontSize: 36,
     fontWeight: "bold",
     color: "#2F3C33",
   },
   subtitle: {
     marginTop: 8,
-    fontSize: 14,
+    fontSize: 18,
     color: "#2F3C33",
-    width: "75%",
+    width: "80%",
   },
   inputContainer: {
-    marginTop: 40,
-  },
-  input: {
-    marginVertical: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
   },
   forgotPassword: {
     alignItems: "center",
