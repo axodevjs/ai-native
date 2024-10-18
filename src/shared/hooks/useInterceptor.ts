@@ -2,10 +2,8 @@ import axios from "axios";
 
 // Создание экземпляра Axios с предустановленными конфигурациями
 export const axiosInstance = axios.create({
-  //   baseURL: "https://spark-admin-production.up.railway.app",
   // baseURL: "http://localhost:4000",
   baseURL: "https://goida-fuck-them-all.up.railway.app/api",
-  // baseURL: "https://telegrambotbackend-production-ee8f.up.railway.app",
 });
 
 axiosInstance.interceptors.request.use(
