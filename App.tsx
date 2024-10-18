@@ -4,6 +4,9 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
+
+import { AchievementsScreen } from "./src/app/screens/AchievementsScreen";
+import ChatScreen from "./src/app/screens/ChatScreen";
 import HomeScreen from "./src/app/screens/HomeScreen";
 import { Login } from "./src/app/screens/LoginScreen";
 import Registration from "./src/app/screens/RegistrationScreen";
@@ -72,6 +75,8 @@ export default function App() {
           <Stack.Screen name="Start" component={Start} />
           <Stack.Screen name="Registration" component={Registration} />
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="Achievements" component={AchievementsScreen} />
           <Stack.Screen name="Login" component={Login} />
         </Stack.Navigator>
       </NavigationContainer>

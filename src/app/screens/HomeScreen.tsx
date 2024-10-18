@@ -1,11 +1,43 @@
+// src/screens/HomeScreen.tsx
 import React from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
+import { Layout } from "../../widgets/ui/layout"; // Adjust path
+import { ConsultationCard } from "../entities/ConsulationCard/ConsultationCard";
+import { InsightCard } from "../entities/InsightCard/InsightCard";
 
 const HomeScreen = () => {
   return (
-    <View className="bg-white w-20 h-20">
-      <Text className="text-main mt-24">Home</Text>
-    </View>
+    <Layout isProfile>
+      <ScrollView className="px-4 mt-8">
+        <Text className="text-2xl font-bold text-gray-700 mb-4">
+          Health Insights
+        </Text>
+        <View className="flex-row space-x-4">
+          <InsightCard
+            title="Heart Rate"
+            value="97 bpm"
+            icon="heart"
+            bgColor="#91BB45"
+          />
+          <InsightCard
+            title="Steps Taken"
+            value="1578 total"
+            icon="run"
+            bgColor="#F87171"
+          />
+          <InsightCard
+            title="Hydration"
+            value="8 cups"
+            icon="water"
+            bgColor="#60A5FA"
+          />
+        </View>
+        <Text className="text-xl font-semibold text-gray-700 mt-8 mb-4">
+          Virtual Consultant
+        </Text>
+        <ConsultationCard />
+      </ScrollView>
+    </Layout>
   );
 };
 
