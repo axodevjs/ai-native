@@ -1,5 +1,6 @@
 import React from "react";
+import { View } from "react-native";
 
 export const AchievementsScreen = () => {
-  return <div>AchievementsScreen</div>;
+  return <View>AchievementsScreen</View>;
 };
