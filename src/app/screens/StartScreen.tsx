@@ -1,18 +1,18 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
-import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 // import LogoIcon from "@/src/shared/icons/logo-icon";
 import RNPickerSelect from "react-native-picker-select";
 import Icon from "react-native-vector-icons/MaterialIcons";
 // import { useTranslation } from "react-i18next";
 // import i18n from "@/src/shared/i18n/i18n";
 import { useState } from "react";
+import Text from "../../shared/ui/Text/Text";
 
-export const Start = () => {
+const StartScreen = () => {
   const navigation = useNavigation();
   // const { t } = useTranslation(); // Подключаем хук useTranslation
   const [language, setLanguage] = useState("ru"); // Устанавливаем текущий язык по умолчанию
@@ -43,8 +43,8 @@ export const Start = () => {
               width: "100%",
               height: "30%",
               backgroundColor: "white",
-              borderTopLeftRadius: 100,
-              borderTopRightRadius: 100,
+              borderTopLeftRadius: 90,
+              borderTopRightRadius: 90,
             }}
           />
           <View className="absolute w-full flex items-center mt-32">
@@ -52,8 +52,10 @@ export const Start = () => {
           </View>
         </View>
         <View className="flex items-center justify-center -mt-12 ">
-          <Text className="text-dark text-2xl font-bold">Добро Пожаловать</Text>
-          <Text className="text-main text-2xl font-bold mt-1">
+          <Text className="text-dark text-2xl" weight="800">
+            Добро Пожаловать
+          </Text>
+          <Text weight="800" className="text-main text-2xl font-bold mt-1">
             Weight a Minute
           </Text>
         </View>
@@ -150,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Start;
+export default StartScreen;
