@@ -5,10 +5,12 @@ import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 import AgeScreen from "./src/app/screens/AgeScreen";
+import HeightScreen from "./src/app/screens/HeightScreen";
 import HomeScreen from "./src/app/screens/HomeScreen";
 import { Login } from "./src/app/screens/LoginScreen";
 import Registration from "./src/app/screens/RegistrationScreen";
 import Start from "./src/app/screens/StartScreen";
+import WeightScreen from "./src/app/screens/WeightScreen";
 import i18n from "./src/shared/i18n/i18n";
 
 const Stack = createNativeStackNavigator();
@@ -75,7 +77,9 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Age" component={AgeScreen} />
-      </Stack.Navigator>
+          <Stack.Screen name="Weight" component={WeightScreen} />
+          <Stack.Screen name="Height" component={HeightScreen} />
+        </Stack.Navigator>
       </NavigationContainer>
     </I18nextProvider>
   );

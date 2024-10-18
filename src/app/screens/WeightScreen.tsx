@@ -4,37 +4,37 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import QuestionLayout from "../layouts/QuestionLayout/QuestionLayout";
 
-const AgeScreen: React.FC = () => {
+const WeightScreen: React.FC = () => {
   const navigation = useNavigation();
-  const [age, setAge] = useState<number>(18);
+  const [weight, setWeight] = useState<number>(70); // Начальное значение веса, например, 70 кг
 
-  // Данные для WheelPicker, возраст от 6 до 99
-  const ageData = [...Array(94).keys()].map((index) => {
-    const age = index + 6;
+  // Данные для WheelPicker, диапазон веса от 30 до 200 кг
+  const weightData = [...Array(171).keys()].map((index) => {
+    const weightValue = index + 30;
     return {
-      value: age,
-      label: age.toString(),
+      value: weightValue,
+      label: weightValue.toString(),
     };
   });
 
   useEffect(() => {
-    console.log(age);
-  }, [age]);
+    console.log(weight);
+  }, [weight]);
 
   return (
     <QuestionLayout
-      title="Сколько вам лет?"
+      title="Ваш вес?"
       onBack={() => navigation.goBack()}
-      onContinue={() => navigation.navigate("Weight" as never)}
+      onContinue={() => navigation.navigate("Height" as never)}
       continueText="Продолжить"
     >
       <WheelPicker
         onValueChanging={() => {
           WheelPickerFeedback.triggerSoundAndImpact();
         }}
-        data={ageData}
-        onValueChanged={({ item: { value } }) => setAge(value)}
-        value={age}
+        data={weightData}
+        onValueChanged={({ item: { value } }) => setWeight(value)}
+        value={weight}
         itemHeight={100}
         itemTextStyle={{
           fontFamily: "Nunito-Bold",
@@ -51,4 +51,4 @@ const AgeScreen: React.FC = () => {
   );
 };
 
-export default AgeScreen;
+export default WeightScreen;

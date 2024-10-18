@@ -1311,6 +1311,18 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
+"@quidone/react-native-wheel-picker-feedback@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@quidone/react-native-wheel-picker-feedback/-/react-native-wheel-picker-feedback-1.0.0.tgz#93197618c16c59e09026722c2926f8d75839b2eb"
+  integrity sha512-Q2wSQzZYGoN/ZoQJMbP7iyGbc0wO5p4YkbC0E1OroT2pRuzn8985s10M/ut6Dua6IQeL99ZpO7ipLe9Tg345Vw==
+
+"@quidone/react-native-wheel-picker@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@quidone/react-native-wheel-picker/-/react-native-wheel-picker-1.0.1.tgz#7414930b849d2e57a5810df3cf55baaf8a0b8693"
+  integrity sha512-vglVIUNiba5mQ3hIRN7bhlqZdeMvzJCSbNH/wb5fX3aQ9dezZUv2c2FFp3ZmoWorW0MgweZW8QZrWq3XIeD8CA==
+  dependencies:
+    "@rozhkov/react-useful-hooks" "^1.0.8"
+
 "@react-native-async-storage/async-storage@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-2.0.0.tgz#22373f7f83132547701637fc574ddb83b83b384e"
@@ -1709,6 +1721,13 @@
     lighthouse-logger "^1.0.0"
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
+
+"@rozhkov/react-useful-hooks@^1.0.8":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@rozhkov/react-useful-hooks/-/react-useful-hooks-1.0.9.tgz#13eef9eca0e46d26a64c3a5727c7de2e9a5e4a2f"
+  integrity sha512-RffdvTrJI7RIvQOYM8/JrDZguNLpKCGjh7UyOjepiJRDtjM10ef+QX0xa6vOLReQ+8kzubBjQ42YM6aj1GotDg==
+  dependencies:
+    default-values "^1.0.1"
 
 "@segment/loosely-validate-event@^2.0.0":
   version "2.0.0"
@@ -2879,6 +2898,11 @@ default-gateway@^4.2.0:
     execa "^1.0.0"
     ip-regex "^2.1.0"
 
+default-values@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/default-values/-/default-values-1.0.2.tgz#cf104c52185c0e60a691113ba0a3880ed4d4d2ed"
+  integrity sha512-OaZEvojjexigvv1IT6N0rKUD5Af7fG11a0jg87jySv5xzjc2+IEW9oWNvqxWLHGhShRRZ0QopCGzGjJv/aY+mw==
+
 defaults@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/defaults/-/defaults-1.0.4.tgz#b0b02062c1e2aa62ff5d9528f0f98baa90978d7a"
@@ -3282,10 +3306,20 @@ expo-font@~12.0.10:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-haptics@^13.0.1:
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/expo-haptics/-/expo-haptics-13.0.1.tgz#35679c7fde4ae1c21ae3bc2d2cb34c266049dc2c"
+  integrity sha512-qG0EOLDE4bROVT3DtUSyV9g3iB3YFu9j3711X7SNNEnBDXc+2/p3wGDPTnJvPW0ao6HG3/McAOrBQA5hVSdWng==
+
 expo-keep-awake@~13.0.2:
   version "13.0.2"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-13.0.2.tgz#5ef31311a339671eec9921b934fdd90ab9652b0e"
   integrity sha512-kKiwkVg/bY0AJ5q1Pxnm/GvpeB6hbNJhcFsoOWDh2NlpibhCLaHL826KHUM+WsnJRbVRxJ+K9vbPRHEMvFpVyw==
+
+expo-linear-gradient@^13.0.2:
+  version "13.0.2"
+  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-13.0.2.tgz#21bd7bc7c71ef4f7c089521daa16db729d2aec5f"
+  integrity sha512-EDcILUjRKu4P1rtWcwciN6CSyGtH7Bq4ll3oTRV7h3h8oSzSilH1g6z7kTAMlacPBKvMnkkWOGzW6KtgMKEiTg==
 
 expo-modules-autolinking@1.11.3:
   version "1.11.3"
@@ -5875,6 +5909,11 @@ react-native-vector-icons@^10.2.0:
   dependencies:
     prop-types "^15.7.2"
     yargs "^16.1.1"
+
+react-native-wheel-picker-expo@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/react-native-wheel-picker-expo/-/react-native-wheel-picker-expo-0.5.4.tgz#6a22785d919ee45d0f998833dc74000d4b5f21eb"
+  integrity sha512-mTA35pqAGioi7gie+nLF4EcwCj7zU36zzlYZVRS/bZul84zvvoMFKJu6Sm84WuWQiUJ40J1EgYxQ3Ui1pIMJZg==
 
 react-native@0.74.5:
   version "0.74.5"
