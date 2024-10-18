@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Alert } from "react-native";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { useState } from "react";
+import { Alert } from "react-native";
 
 export const useLogin = () => {
   const [email, setEmail] = useState<string>("");
@@ -20,7 +20,7 @@ export const useLogin = () => {
 
     try {
       const response = await axios.post(
-        "https://satbayevhack-production.up.railway.app/api/auth/login",
+        "https://goida-fuck-them-all.up.railway.app/api/auth/login",
         data
       );
 
