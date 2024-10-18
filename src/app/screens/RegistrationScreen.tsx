@@ -33,11 +33,8 @@ export const Registration = () => {
   };
 
   return (
-    <SafeAreaView
-      style={styles.container}
-      className="flex items-center justify-center"
-    >
-      <View style={styles.innerContainer}>
+    <SafeAreaView style={styles.container} className="flex items-center">
+      <View style={styles.innerContainer} className="mt-24">
         <Text style={styles.title} weight="800" family="OpenSans">
           {t("create_account")}
         </Text>
@@ -87,27 +84,30 @@ export const Registration = () => {
             }
           />
         </View>
-        <Button
-          mode="contained"
-          style={{
-            backgroundColor: "#91BB45",
-            width: "100%",
-            height: 50,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 50,
-          }}
-          textColor="white"
-          labelStyle={{ fontSize: 18 }}
-          onPress={register}
-          disabled={loading}
-        >
-          <Text className="text-secondary text-lg" weight="400" family="Nunito">
-            {loading ? t("loading") : t("create_account_button")}
-          </Text>
-        </Button>
-
+        <View className="flex items-center justify-center mt-4">
+          <Button
+            mode="contained"
+            style={{
+              backgroundColor: "#91BB45",
+              width: "80%",
+              height: 50,
+              borderRadius: 50,
+              justifyContent: "center",
+            }}
+            labelStyle={{ fontSize: 18, color: "white", textAlign: "center" }}
+            textColor="white"
+            onPress={register}
+            disabled={loading}
+          >
+            <Text
+              className="text-secondary text-lg"
+              weight="400"
+              family="Nunito"
+            >
+              {loading ? t("loading") : t("create_account_button")}
+            </Text>
+          </Button>
+        </View>
         <View className="mt-4 gap-x-2 flex flex-row justify-center">
           <Text className="text-dark" family="Nunito">
             {t("already_have_account")}
@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
   innerContainer: {
     width: "90%",
     alignSelf: "center",
-    marginTop: 56,
   },
   title: {
     fontSize: 36,

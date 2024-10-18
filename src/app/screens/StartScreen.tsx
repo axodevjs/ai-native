@@ -70,13 +70,10 @@ const StartScreen = () => {
               backgroundColor: "#91BB45",
               width: 240,
               height: 50,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
               borderRadius: 50,
+              justifyContent: "center",
             }}
-            textColor="white"
-            labelStyle={{ fontSize: 18 }}
+            labelStyle={{ fontSize: 18, color: "white", textAlign: "center" }}
             onPress={() => {
               handleNavigation("Registration");
             }}
@@ -90,7 +87,6 @@ const StartScreen = () => {
             </Text>
           </Button>
         </View>
-
         <View className="mt-4 gap-x-2 flex flex-row">
           <Text className="text-dark" family="Nunito">
             {t("already_have_account")}
