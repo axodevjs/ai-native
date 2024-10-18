@@ -8,14 +8,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // import LogoIcon from "@/src/shared/icons/logo-icon";
 import RNPickerSelect from "react-native-picker-select";
 import Icon from "react-native-vector-icons/MaterialIcons";
-// import { useTranslation } from "react-i18next";
-// import i18n from "@/src/shared/i18n/i18n";
+import { useTranslation } from "react-i18next";
+import i18n from "../../shared/i18n/i18n";
 import { useState } from "react";
 
 export const Start = () => {
   const navigation = useNavigation();
-  // const { t } = useTranslation(); // Подключаем хук useTranslation
-  const [language, setLanguage] = useState("ru"); // Устанавливаем текущий язык по умолчанию
+  const { t } = useTranslation();
+  const [language, setLanguage] = useState(i18n.language);
 
   const handleNavigation = (screen: string) => {
     navigation.navigate(screen as never);
@@ -28,12 +28,12 @@ export const Start = () => {
   ];
 
   const changeLanguage = (value: string) => {
-    setLanguage(value); // Обновляем локальный стейт
-    // i18n.changeLanguage(value); // Меняем язык в i18next
+    setLanguage(value);
+    i18n.changeLanguage(value);
   };
 
   return (
-    <SafeAreaView className="h-[100vh] bg-white ">
+    <SafeAreaView className=" bg-white">
       <View className="items-center justify-center relative -top-20">
         <View className="w-full h-[70%] bg-main">
           <View
@@ -51,13 +51,12 @@ export const Start = () => {
             {/* <LogoIcon width={150} height={150} /> */}
           </View>
         </View>
-        <View className="flex items-center justify-center -mt-12 ">
-          <Text className="text-dark text-2xl font-bold">Добро Пожаловать</Text>
+        <View className="flex items-center justify-center -mt-16 ">
+          <Text className="text-dark text-4xl font-bold">{t("welcome")}</Text>
           <Text className="text-main text-2xl font-bold mt-1">
             Weight a Minute
           </Text>
         </View>
-
         <View className="mt-10">
           <Button
             mode="contained"
@@ -76,25 +75,25 @@ export const Start = () => {
               handleNavigation("Registration");
             }}
           >
-            Начать
+            {t("start")}
           </Button>
         </View>
 
         <View className="mt-4 gap-x-1 flex flex-row">
-          <Text className="text-dark">Уже есть аккаунт?</Text>
+          <Text className="text-dark">{t("already_have_account")}</Text>
           <MyTouchableOpacity onPress={() => handleNavigation("Login")}>
-            <Text className="text-main">Войти</Text>
+            <Text className="text-main">{t("login")}</Text>
           </MyTouchableOpacity>
         </View>
         <View style={styles.languageContainer}>
           <View className="flex flex-row items-center mt-4">
             <Text
               className="mr-1"
-              style={[styles.languageLabel, { color: "#333" }]}
+              style={[styles.languageLabel, { color: "#2F3C33" }]}
             >
-              Язык
+              {t("language")}
             </Text>
-            <Icon name="language" size={24} color="#3F813D" />
+            <Icon name="language" size={24} color="#2F3C33" />
           </View>
           <View style={styles.pickerWrapper}>
             <RNPickerSelect
@@ -103,19 +102,19 @@ export const Start = () => {
               value={language}
               style={{
                 inputIOS: {
-                  color: "#4D3128",
+                  color: "#2F3C33",
                   paddingHorizontal: 10,
                   paddingVertical: 12,
                   borderWidth: 1,
-                  borderColor: "#4D3128",
+                  borderColor: "#2F3C33",
                   borderRadius: 4,
                 },
                 inputAndroid: {
-                  color: "#4D3128",
+                  color: "#2F3C33",
                   paddingHorizontal: 10,
                   paddingVertical: 12,
                   borderWidth: 1,
-                  borderColor: "#4D3128",
+                  borderColor: "#2F3C33",
                   borderRadius: 4,
                 },
                 placeholder: {
@@ -123,8 +122,7 @@ export const Start = () => {
                 },
               }}
               placeholder={{
-                label: language,
-                value: null,
+                label: t("select_language"),
                 color: "#A9A9A9",
               }}
             />
