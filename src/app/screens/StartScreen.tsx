@@ -75,7 +75,7 @@ const StartScreen = () => {
             textColor="white"
             labelStyle={{ fontSize: 18 }}
             onPress={() => {
-              handleNavigation("Registration");
+              handleNavigation("Age");
             }}
           >
             Начать

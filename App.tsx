@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
+import AgeScreen from "./src/app/screens/AgeScreen";
 import StartScreen from "./src/app/screens/StartScreen";
 
 const Stack = createNativeStackNavigator();
@@ -64,6 +65,7 @@ export default function App() {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Start" component={StartScreen} />
+        <Stack.Screen name="Age" component={AgeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
