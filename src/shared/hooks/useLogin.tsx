@@ -20,7 +20,7 @@ export const useLogin = () => {
 
     try {
       const response = await axios.post(
-        "https://goida-fuck-them-all.up.railway.app/api/user/login",
+        "https://ai-express-production-f8e8.up.railway.app/api/user/login",
         data
       );
 
@@ -38,7 +38,7 @@ export const useLogin = () => {
 
       await AsyncStorage.setItem("userData", JSON.stringify(userData));
 
-      navigation.navigate("Home" as never);
+      navigation.navigate("Age" as never);
     } catch (error: any) {
       console.error("Ошибка при входе:", error.message);
       Alert.alert("Ошибка", "Ошибка при входе, проверьте данные.");

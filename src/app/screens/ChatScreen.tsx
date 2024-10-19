@@ -42,7 +42,8 @@ const ChatScreen: React.FC = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPEN_API_KEY}`,
+            Authorization: `Bearer sk-V17oMMxoMjtS_FTiabQLT9Dyd2fld50YSClW-47FzET3BlbkFJ6aKiPeoVuQDBdym6Oi4lJdTt6pqu6BGwj8jjbEyS8A`,
+            // Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPEN_API_KEY}`,
             "Content-Type": "application/json",
           },
         }

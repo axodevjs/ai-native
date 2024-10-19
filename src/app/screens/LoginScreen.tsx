@@ -1,16 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Alert, SafeAreaView, StyleSheet, View } from "react-native";
 import { Input } from "react-native-elements";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useLogin } from "../../shared/hooks/useLogin";
+import { useNotifications } from "../../shared/hooks/useNotification";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import Text from "../../shared/ui/Text/Text";
 
 export const Login = () => {
   const { t } = useTranslation();
+  const { scheduleNotification } = useNotifications();
+
   const { email, setEmail, password, setPassword, loading, login } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
@@ -19,13 +22,17 @@ export const Login = () => {
     navigation.navigate(screen as never);
   };
 
+  const handlePress = () => {
+    scheduleNotification("Hello!", "This is a scheduled notification.");
+    Alert.alert("Notification Scheduled", "You will receive it in 5 seconds.");
+  };
+
   return (
     <SafeAreaView style={styles.container} className="flex items-center ">
       <View style={styles.innerContainer} className="mt-24">
         <Text style={styles.title}>{t("login_title")}</Text>
         <Text style={styles.subtitle}>{t("login_message")}</Text>
-
-        <View style={styles.inputContainer} className="mt-16">
+        <View style={styles.inputContainer} className="mt-28">
           <Input
             placeholder={t("email_label")}
             value={email}
@@ -47,14 +54,6 @@ export const Login = () => {
               />
             }
           />
-          <MyTouchableOpacity
-            onPress={() => handleNavigation("Reset")}
-            style={styles.forgotPassword}
-          >
-            <Text style={styles.forgotPasswordText}>
-              {t("forgot_password")}
-            </Text>
-          </MyTouchableOpacity>
           <Button
             mode="contained"
             style={{
@@ -78,6 +77,14 @@ export const Login = () => {
               {loading ? t("loading") : t("login_button")}
             </Text>
           </Button>
+          <MyTouchableOpacity
+            onPress={() => handleNavigation("Reset")}
+            style={styles.forgotPassword}
+          >
+            <Text style={styles.forgotPasswordText}>
+              {t("forgot_password")}
+            </Text>
+          </MyTouchableOpacity>
           <View
             style={styles.registerContainer}
             className="flex flex-row items-center gap-x-2"
