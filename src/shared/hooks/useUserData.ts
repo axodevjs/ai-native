@@ -8,7 +8,6 @@ export interface IUserData {
     email: string | null;
     accessToken: string | null;
     id: number | null;
-    statuses: Array<{ name: string; color: string }>; // User statuses
   };
 }
 

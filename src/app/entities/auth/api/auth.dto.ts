@@ -41,6 +41,11 @@ export interface LoginUserRdo {
   message: string;
   user: {
     id: number;
+    level: number;
+    points: number;
+    weight: number;
+    height: number;
+    age: number;
     username: string;
     email: string;
   };

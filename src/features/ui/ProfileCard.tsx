@@ -16,7 +16,7 @@ export const ProfileCard = () => {
   const { setStatusTabVisible, isVisible, status, icon } = useStatusStore(); // Zustand store to check visibility
   const navigation = useNavigation();
 
-  console.log("userData:", userData?.user);
+  console.log("userData:", userData);
 
   const handleLogout = () => {
     navigation.navigate("Login" as never);
