@@ -1,27 +1,27 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-interface IUserData {
-  username: string | null;
-  email: string | null;
-  accessToken: string | null;
-  id: number | null;
+// Define user data with status
+export interface IUserData {
+  user: {
+    username: string | null;
+    email: string | null;
+    accessToken: string | null;
+    id: number | null;
+    statuses: Array<{ name: string; color: string }>; // Statuses inside user data
+  };
 }
 
-interface UserDataHookResult {
-  userData: IUserData;
+// Hook result interface
+export interface UserDataHookResult {
+  userData: IUserData | null; // Type of userData
   isLoading: boolean;
   updateUserData: (newData: IUserData) => Promise<void>;
 }
 
 export const useUserData = (): UserDataHookResult => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userData, setUserData] = useState<IUserData>({
-    username: null,
-    email: null,
-    accessToken: null,
-    id: null,
-  });
+  const [userData, setUserData] = useState<IUserData | null>(null);
 
   const loadUserData = async () => {
     try {

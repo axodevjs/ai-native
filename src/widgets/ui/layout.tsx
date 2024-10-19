@@ -4,7 +4,6 @@ import React from "react";
 import { SafeAreaView } from "react-native";
 import { useStatusStore } from "../../app/entities/StatusTab/model/useStatusStore";
 import { StatusTabs } from "../../app/entities/StatusTab/StatusTab";
-import { SafeAreaView, ScrollView } from "react-native";
 import { BottomTab } from "../../features/ui/BottomTab";
 import { ProfileCard } from "../../features/ui/ProfileCard";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";

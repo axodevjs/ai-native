@@ -1,9 +1,7 @@
 import axios from "axios";
 
-// Создание экземпляра Axios с предустановленными конфигурациями
 export const axiosInstance = axios.create({
-  // baseURL: "http://localhost:4000",
-  baseURL: "https://goida-fuck-them-all.up.railway.app/api",
+  baseURL: "https://ai-express-production-f8e8.up.railway.app/api",
 });
 
 axiosInstance.interceptors.request.use(
@@ -25,7 +23,6 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Добавление интерсептора ответа для обработки истечения токена
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;

@@ -17,6 +17,7 @@ import ResetPassword from "./src/app/screens/reset-password";
 import Start from "./src/app/screens/StartScreen";
 import WeightScreen from "./src/app/screens/WeightScreen";
 import i18n from "./src/shared/i18n/i18n";
+import { ResultScreen } from "./src/app/screens/result-screen";
 
 const Stack = createNativeStackNavigator();
 
@@ -87,6 +88,7 @@ export default function App() {
           <Stack.Screen name="Weight" component={WeightScreen} />
           <Stack.Screen name="Height" component={HeightScreen} />
           <Stack.Screen name="Ar" component={ArScreen} />
+          <Stack.Screen name="Result" component={ResultScreen} />
           <Stack.Screen name="Reset" component={ResetPassword} />
         </Stack.Navigator>
       </NavigationContainer>

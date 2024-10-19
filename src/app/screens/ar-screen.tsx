@@ -4,10 +4,12 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Layout } from "../../widgets/ui/layout";
 import AnalysisCard from "../entities/AnalysisCard/analysis-card";
 import { SafeAreaView } from "react-native-safe-area-context";
-// If you're using TypeScript, adjust the import paths accordingly
+import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
+import { useNavigation } from "@react-navigation/native";
 
 export const ArScreen = () => {
   const [activeTab, setActiveTab] = useState("Analysis");
+  const navigation = useNavigation();
 
   return (
     <Layout>
@@ -41,6 +43,10 @@ export const ArScreen = () => {
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
+
+      <MyTouchableOpacity onPress={() => navigation.navigate("Result")}>
+        <Text>result</Text>
+      </MyTouchableOpacity>
 
       <ScrollView className="flex-1 p-4">
         {activeTab === "Analysis" && (

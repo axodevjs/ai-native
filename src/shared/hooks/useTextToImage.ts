@@ -1,40 +1,24 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import { useState } from "react";
-import { axiosInstance } from "./useInterceptor";
+import { useUserData } from "./useUserData";
 
-export const useTextToImage = () => {
+export const useImageToText = () => {
+  const [textResult, setTextResult] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const { userData } = useUserData(); // Assume you have access to user data
 
-  const textToImage = async (imageUri: string) => {
+  // Updated function to accept a Blob or File object
+  const imageToText = async (file: Blob | File) => {
     setLoading(true);
-    setError(null);
 
     try {
-      const userData = await AsyncStorage.getItem("userData");
-      console.log("Raw userData from AsyncStorage:", userData);
-
-      const parsedUserData = userData ? JSON.parse(userData) : null;
-      console.log("Parsed userData:", parsedUserData);
-
-      if (!parsedUserData || !parsedUserData.user.id) {
-        console.log("Parsed User Data:", parsedUserData.user.id);
-      }
-
-      const userId = parsedUserData.user.id;
-
       const formData = new FormData();
+      formData.append("image", file); // Append the image file
 
-      formData.append("image", {
-        uri: imageUri,
-        name: "photo.jpg",
-        type: "image/jpeg",
-      });
+      console.log(`Uploading file of type: ${file.type}, size: ${file.size}`);
 
-      console.log("form data:", formData);
-
-      const response = await axiosInstance.post(
-        `/vision/image-to-text/${userId}`,
+      const response = await axios.post(
+        `https://ai-express-production-f8e8.up.railway.app/api/vision/image-to-text/1`,
         formData,
         {
           headers: {
@@ -42,13 +26,21 @@ export const useTextToImage = () => {
           },
         }
       );
-    } catch (err: any) {
-      console.error("Error:", err);
-      setError(err.message || "An unexpected error occurred.");
+
+      console.log(formData);
+
+      setTextResult(response.data.result); // Save result from the response
+    } catch (error) {
+      // Handle errors, including network issues, file size problems, etc.
+      console.error("Error uploading image and fetching text:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  return { textToImage, loading, error };
+  return {
+    imageToText,
+    textResult,
+    loading,
+  };
 };
