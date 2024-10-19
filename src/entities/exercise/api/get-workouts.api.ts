@@ -17,3 +17,19 @@ export const getWorkouts = async (): Promise<GetWorkoutsResponse> => {
     throw error;
   }
 };
+
+export const addAchievement = async (points: number, colories: number) => {
+  try {
+    const response = await apiClient.post("/user/add-achievement", {
+      points: points, // Преобразуем в строку, чтобы соответствовать требуемому формату
+      colories: colories, // Преобразуем в строку, чтобы соответствовать требуемому формату
+    });
+
+    console.log({ points, colories });
+
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при добавлении достижения:", error);
+    throw error;
+  }
+};

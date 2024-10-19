@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { addAchievement } from "../api/get-workouts.api";
 
 interface Workout {
   name: string;
@@ -31,9 +32,36 @@ export const useExerciseStore = create<ExerciseStore>((set) => ({
       isRunning: true,
       timeLeft: state.exercises[state.currentExerciseIndex]?.durations || 0,
     })),
-  nextExercise: () =>
+  nextExercise: async () => {
+    set((state) => {
+      const currentExercise = state.exercises[state.currentExerciseIndex];
+
+      // Если текущего упражнения нет, ничего не делаем
+      if (!currentExercise) {
+        return {};
+      }
+
+      return {};
+    });
+
+    try {
+      // Выполняем асинхронный вызов addAchievement
+      const currentExercise =
+        useExerciseStore.getState().exercises[
+          useExerciseStore.getState().currentExerciseIndex
+        ];
+      await addAchievement(
+        currentExercise.points,
+        parseInt(currentExercise.colories, 10)
+      );
+    } catch (error) {
+      console.error("Ошибка при добавлении достижения:", error);
+    }
+
+    // Переход к следующему упражнению после завершения запроса
     set((state) => {
       const nextIndex = state.currentExerciseIndex + 1;
+
       if (nextIndex < state.exercises.length) {
         return {
           currentExerciseIndex: nextIndex,
@@ -41,15 +69,14 @@ export const useExerciseStore = create<ExerciseStore>((set) => ({
           isRunning: false,
         };
       } else {
-        // Если все упражнения выполнены, сбрасываем состояние
         return {
           isRunning: false,
           timeLeft: 0,
-          currentExerciseIndex: state.exercises.length, // Индекс устанавливается за пределы массива
+          currentExerciseIndex: state.exercises.length,
         };
       }
-    }),
-
+    });
+  },
   tick: () =>
     set((state) => ({ timeLeft: state.timeLeft > 0 ? state.timeLeft - 1 : 0 })),
   reset: () =>
