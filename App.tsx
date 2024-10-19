@@ -5,22 +5,48 @@ import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 
+import { useAuthStore } from "./src/app/entities/auth/model/use-auth-store";
 import { AchievementsScreen } from "./src/app/screens/AchievementsScreen";
 import AgeScreen from "./src/app/screens/AgeScreen";
 import { ArScreen } from "./src/app/screens/ar-screen";
 import ChatScreen from "./src/app/screens/ChatScreen";
 import HeightScreen from "./src/app/screens/HeightScreen";
 import HomeScreen from "./src/app/screens/HomeScreen";
-import { Login } from "./src/app/screens/LoginScreen";
+import LoginScreen from "./src/app/screens/LoginScreen";
 import Registration from "./src/app/screens/RegistrationScreen";
 import ResetPassword from "./src/app/screens/reset-password";
 import Start from "./src/app/screens/StartScreen";
 import WeightScreen from "./src/app/screens/WeightScreen";
 import i18n from "./src/shared/i18n/i18n";
+import { ResultScreen } from "./src/app/screens/result-screen";
 
 const Stack = createNativeStackNavigator();
+const AuthStack = createNativeStackNavigator();
+const UnauthStack = createNativeStackNavigator();
+
+const AuthenticatedStack = () => (
+  <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+    <AuthStack.Screen name="Home" component={HomeScreen} />
+    <AuthStack.Screen name="Chat" component={ChatScreen} />
+    <AuthStack.Screen name="Achievements" component={AchievementsScreen} />
+    <AuthStack.Screen name="Ar" component={ArScreen} />
+  </AuthStack.Navigator>
+);
+
+const UnauthenticatedStack = () => (
+  <UnauthStack.Navigator screenOptions={{ headerShown: false }}>
+    <UnauthStack.Screen name="Start" component={Start} />
+    <AuthStack.Screen name="Age" component={AgeScreen} />
+    <AuthStack.Screen name="Weight" component={WeightScreen} />
+    <AuthStack.Screen name="Height" component={HeightScreen} />
+    <UnauthStack.Screen name="Login" component={LoginScreen} />
+    <UnauthStack.Screen name="Registration" component={Registration} />
+    <UnauthStack.Screen name="Reset" component={ResetPassword} />
+  </UnauthStack.Navigator>
+);
 
 export default function App() {
+  const { loadToken, token, setToken } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
   const [fontsLoaded] = useFonts({
     // Шрифты Nunito
@@ -57,6 +83,7 @@ export default function App() {
 
   useEffect(() => {
     const prepareApp = async () => {
+      await loadToken();
       if (fontsLoaded) {
         await SplashScreen.hideAsync();
       }
@@ -87,8 +114,10 @@ export default function App() {
           <Stack.Screen name="Weight" component={WeightScreen} />
           <Stack.Screen name="Height" component={HeightScreen} />
           <Stack.Screen name="Ar" component={ArScreen} />
+          <Stack.Screen name="Result" component={ResultScreen} />
           <Stack.Screen name="Reset" component={ResetPassword} />
         </Stack.Navigator>
+        {token ? <AuthenticatedStack /> : <UnauthenticatedStack />}
       </NavigationContainer>
     </I18nextProvider>
   );
