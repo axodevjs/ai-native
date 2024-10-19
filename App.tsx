@@ -4,7 +4,6 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
-
 import { useAuthStore } from "./src/app/entities/auth/model/use-auth-store";
 import { AchievementsScreen } from "./src/app/screens/AchievementsScreen";
 import AgeScreen from "./src/app/screens/AgeScreen";
@@ -31,6 +30,7 @@ const AuthenticatedStack = () => (
     <AuthStack.Screen name="Chat" component={ChatScreen} />
     <AuthStack.Screen name="Achievements" component={AchievementsScreen} />
     <AuthStack.Screen name="Ar" component={ArScreen} />
+    <AuthStack.Screen name="Result" component={ResultScreen} />
     <AuthStack.Screen name="Training" component={TrainingScreen} />
     <AuthStack.Screen name="Exercise" component={ExerciseScreen} />
   </AuthStack.Navigator>
