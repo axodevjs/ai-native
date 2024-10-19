@@ -10,6 +10,7 @@ import RNPickerSelect from "react-native-picker-select";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import i18n from "../../shared/i18n/i18n";
 import Button from "../../shared/ui/Button/Button";
+import Logo from "../../shared/ui/Logo/logo";
 import Text from "../../shared/ui/Text/Text";
 
 const StartScreen = () => {
@@ -34,7 +35,9 @@ const StartScreen = () => {
 
   return (
     <SafeAreaView className="bg-main h-full flex flex-col justify-between">
-      <View></View>
+      <View className="flex items-center justify-center mt-16">
+        <Logo />
+      </View>
       <View className="flex bg-white flex-col items-center pt-14 pb-1 w-full rounded-tl-[60px] rounded-tr-[60px]">
         <View className="flex flex-col items-center justify-center px-4">
           <Text

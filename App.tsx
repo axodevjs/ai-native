@@ -4,7 +4,6 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
-
 import { useAuthStore } from "./src/app/entities/auth/model/use-auth-store";
 import { AchievementsScreen } from "./src/app/screens/AchievementsScreen";
 import AgeScreen from "./src/app/screens/AgeScreen";
@@ -19,7 +18,6 @@ import Start from "./src/app/screens/StartScreen";
 import TrainingScreen from "./src/app/screens/TrainingScreen";
 import WeightScreen from "./src/app/screens/WeightScreen";
 import i18n from "./src/shared/i18n/i18n";
-import { ResultScreen } from "./src/app/screens/result-screen";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();

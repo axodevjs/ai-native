@@ -62,7 +62,7 @@ export const AnalysisCard = () => {
       formData.append("image", { uri, name: "photo.jpg", type: blob.type });
 
       const apiResponse = await axios.post(
-        `https://ai-express-production-f8e8.up.railway.app/api/vision/image-to-text/${userData?.user.id}`,
+        https://ai-express-production-f8e8.up.railway.app/api/vision/image-to-text/${userData?.user.id},
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -122,8 +122,7 @@ export const AnalysisCard = () => {
             />
           )}
 
-          {imageUri && (
-            <Image
+          {imageUri && (<Image
               source={{ uri: imageUri }}
               className="w-64 h-64 rounded-md"
               onError={(e) =>

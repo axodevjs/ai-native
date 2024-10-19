@@ -1,20 +1,19 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 
-// Define user data with status
+// Define user data with statuses
 export interface IUserData {
   user: {
     username: string | null;
     email: string | null;
     accessToken: string | null;
     id: number | null;
-    statuses: Array<{ name: string; color: string }>; // Statuses inside user data
   };
 }
 
 // Hook result interface
 export interface UserDataHookResult {
-  userData: IUserData | null; // Type of userData
+  userData: IUserData | null;
   isLoading: boolean;
   updateUserData: (newData: IUserData) => Promise<void>;
 }
@@ -26,15 +25,16 @@ export const useUserData = (): UserDataHookResult => {
   const loadUserData = async () => {
     try {
       const data = await AsyncStorage.getItem("userData");
-      const parsedData = data
-        ? JSON.parse(data)
-        : { username: null, email: null, accessToken: null, id: null };
-      setUserData(parsedData);
+      if (data) {
+        const parsedData: IUserData = JSON.parse(data);
+        console.log("Parsed userData:", parsedData); // Debugging log
+        setUserData(parsedData);
+      } else {
+        console.warn("No user data found in AsyncStorage.");
+        setUserData(null);
+      }
     } catch (error) {
-      console.error(
-        "Ошибка при чтении данных пользователя из AsyncStorage",
-        error
-      );
+      console.error("Error reading userData from AsyncStorage:", error);
     } finally {
       setIsLoading(false);
     }
@@ -50,10 +50,7 @@ export const useUserData = (): UserDataHookResult => {
       await AsyncStorage.setItem("userData", JSON.stringify(newData));
       setUserData(newData);
     } catch (error) {
-      console.error(
-        "Ошибка при сохранении данных пользователя в AsyncStorage",
-        error
-      );
+      console.error("Error saving userData to AsyncStorage:", error);
     } finally {
       setIsLoading(false);
     }

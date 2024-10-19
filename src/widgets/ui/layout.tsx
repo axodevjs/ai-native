@@ -26,10 +26,10 @@ export const Layout: React.FC<ILayout> = ({ children, isProfile, isBack }) => {
     <SafeAreaView className="w-full h-[100vh] relative">
       {isBack && (
         <MyTouchableOpacity
-          className="flex flex-row items-start w-[95%] ml-2"
+          className="flex flex-row items-start w-[95%] ml-2 mt-12"
           onPress={() => handleNavigate("Home")}
         >
-          <FontAwesome name="chevron-left" size={24} color="black" />
+          <FontAwesome name="chevron-left" size={24} color="#91BB45" />
         </MyTouchableOpacity>
       )}
       {isVisible && <StatusTabs />}
