@@ -19,7 +19,7 @@ export const Layout: React.FC<ILayout> = ({ children, isProfile, isBack }) => {
   const { isVisible } = useStatusStore(); // Zustand store to check visibility
 
   const handleNavigate = (screen: string) => {
-    navigation.navigate(screen as never); // Navigate to the selected screen
+    navigation.navigate(screen as never);
   };
 
   return (
