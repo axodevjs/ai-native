@@ -1,4 +1,3 @@
-// src/screens/ChatScreen.tsx
 import axios from "axios";
 import React, { useState } from "react";
 import {
@@ -44,6 +43,7 @@ const ChatScreen: React.FC = () => {
         {
           headers: {
             Authorization: `Bearer sk-V17oMMxoMjtS_FTiabQLT9Dyd2fld50YSClW-47FzET3BlbkFJ6aKiPeoVuQDBdym6Oi4lJdTt6pqu6BGwj8jjbEyS8A`,
+            // Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPEN_API_KEY}`,
             "Content-Type": "application/json",
           },
         }
@@ -97,7 +97,7 @@ const ChatScreen: React.FC = () => {
             <Text className="text-gray-500 mt-2">Получение ответа...</Text>
           </View>
         )}
-        <View className="flex-row items-center p-4 mb-32">
+        <View className="flex-row items-center p-4 border-t border-gray-200 mb-32">
           <TextInput
             value={text}
             onChangeText={setText}

@@ -3,26 +3,40 @@ import { View } from "react-native";
 import { Button, Card } from "react-native-paper";
 import Text from "../../../shared/ui/Text/Text";
 
-export const ConsultationCard = () => {
+interface IConsultationCard {
+  name: string;
+  paragraph: string;
+  buttonText: string;
+  screen: string;
+  margin?: string;
+}
+
+export const ConsultationCard: React.FC<IConsultationCard> = ({
+  name,
+  paragraph,
+  screen,
+  buttonText,
+  margin,
+}) => {
   const navigation = useNavigation();
 
   const handleNavigate = (screen: string) => {
     navigation.navigate(screen as never); // Navigate to the selected screen
   };
   return (
-    <Card className="rounded-lg">
+    <Card className={`rounded-lg ${margin}`}>
       <Card.Content className="flex-row justify-between items-center">
         <View>
-          <Text className="text-lg font-bold">🤖Our Chatbot</Text>
-          <Text className="text-gray-500">Upcoming Consultations</Text>
+          <Text className="text-lg font-bold">{name}</Text>
+          <Text className="text-gray-500">{paragraph}</Text>
         </View>
         <Button
           icon="plus"
           mode="contained"
           className="bg-main"
-          onPress={() => handleNavigate("Chat")}
+          onPress={() => handleNavigate(screen)}
         >
-          Chat
+          {buttonText}
         </Button>
       </Card.Content>
     </Card>

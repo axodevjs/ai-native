@@ -12,6 +12,9 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "infoPlist": {
+        "UIBackgroundModes": ["fetch", "remote-notification"]
+      },
       "supportsTablet": true,
       "bundleIdentifier": "com.axxxegao.ainative"
     },
@@ -25,8 +28,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "plugins": ["expo-font"]
   }
 }

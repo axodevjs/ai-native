@@ -14,35 +14,35 @@ const HomeScreen = () => {
     <Layout isProfile>
       <ScrollView className="px-4 mt-8">
         <Text className="text-2xl font-bold text-gray-700 mb-4">
-          Health Insights
+          Health insights
         </Text>
-        <View className="flex-row space-x-4">
+        <View className="flex-row space-x-2">
+          <InsightCard title="Water Drink" value="2 Liters" bgColor="#0E87CC" />
           <InsightCard
-            title="Heart Rate"
-            value="97 bpm"
-            icon="heart"
-            bgColor="#91BB45"
-          />
-          <InsightCard
+            margin="ml-4"
             title="Steps Taken"
             value="1578 total"
-            icon="run"
             bgColor="#F87171"
-          />
-          <InsightCard
-            title="Hydration"
-            value="8 cups"
-            icon="water"
-            bgColor="#60A5FA"
           />
         </View>
         <Text className="text-xl font-semibold text-gray-700 mt-8 mb-4">
           Virtual Consultant
         </Text>
-        <ConsultationCard />
+        <ConsultationCard
+          name="🤖Our Chatbot"
+          paragraph="Upcoming Consultations"
+          buttonText="Chat"
+          screen="Chat"
+        />
+        <ConsultationCard
+          name="🍔Food Analysis"
+          paragraph="Analyze your meal"
+          buttonText="Start"
+          margin="mt-4"
+          screen="Ar"
+        />
       </ScrollView>
     </Layout>
-
   );
 };
 

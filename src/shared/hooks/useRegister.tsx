@@ -24,7 +24,7 @@ export const useRegister = () => {
 
     try {
       const response = await axios.post(
-        "https://goida-fuck-them-all.up.railway.app/api/user/register",
+        "https://ai-express-production-f8e8.up.railway.app/api/user/register",
         data
       );
 
