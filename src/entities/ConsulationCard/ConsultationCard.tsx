@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
 import { Button, Card } from "react-native-paper";
-import Text from "../../../shared/ui/Text/Text";
+import Text from "../../shared/ui/Text/Text";
 
 interface IConsultationCard {
   name: string;

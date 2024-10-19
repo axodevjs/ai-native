@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useTextToImage } from "../../../shared/hooks/useTextToImage";
+import { useTextToImage } from "../../shared/hooks/useTextToImage";
 
 export const AnalysisCard = () => {
   const [imageUri, setImageUri] = useState(null);

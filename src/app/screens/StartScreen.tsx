@@ -56,7 +56,7 @@ const StartScreen = () => {
           <Button
             variant="light"
             text={t("start")}
-            onPress={() => handleNavigation("Login")}
+            onPress={() => handleNavigation("Age")}
           />
         </View>
         <View className="mt-4 gap-x-2 flex flex-row">

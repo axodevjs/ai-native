@@ -1,43 +1,52 @@
 import WheelPicker from "@quidone/react-native-wheel-picker";
 import WheelPickerFeedback from "@quidone/react-native-wheel-picker-feedback";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import QuestionLayout from "../layouts/QuestionLayout/QuestionLayout";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRegister } from "../../shared/hooks/useRegister"; // Import your hook
+import QuestionLayout from "../layouts/QuestionLayout/QuestionLayout"; // Layout component
 
 const AgeScreen: React.FC = () => {
   const navigation = useNavigation();
-  const [age, setAge] = useState<number>(18);
+  const { age, setAge } = useRegister(); // Access age and setAge from the store
 
-  // Данные для WheelPicker, возраст от 6 до 99
-  const ageData = [...Array(94).keys()].map((index) => {
-    const age = index + 6;
-    return {
-      value: age,
-      label: age.toString(),
-    };
-  });
+  // Generate age data from 6 to 99
+  const ageData = [...Array(94).keys()].map((index) => ({
+    value: index + 6,
+    label: (index + 6).toString(),
+  }));
 
+  // Log the selected age whenever it changes
   useEffect(() => {
-    console.log(age);
+    console.log(`Current age in store: ${age}`);
   }, [age]);
 
   return (
     <SafeAreaView>
       <QuestionLayout
         title="Сколько вам лет?"
-        onBack={() => navigation.goBack()}
-        onContinue={() => navigation.navigate("Weight" as never)}
+        onBack={() => {
+          console.log("Navigating back to the previous screen");
+          navigation.goBack();
+        }}
+        onContinue={() => {
+          console.log(`Proceeding with selected age: ${age}`);
+          navigation.navigate("Weight" as never);
+        }}
         continueText="Продолжить"
       >
         <WheelPicker
-          onValueChanging={() => {
-            WheelPickerFeedback.triggerSoundAndImpact();
-          }}
           data={ageData}
-          onValueChanged={({ item: { value } }) => setAge(value)}
-          value={age}
+          value={age || 18} // Default to 18 if age is not set
           itemHeight={100}
+          onValueChanged={({ item: { value } }) => {
+            console.log(`Selected age: ${value}`);
+            setAge(value); // Update age in Zustand store
+          }}
+          onValueChanging={() => {
+            console.log("Changing age value...");
+            WheelPickerFeedback.triggerSoundAndImpact(); // Optional feedback
+          }}
           itemTextStyle={{
             fontFamily: "Nunito-Bold",
             fontSize: 36,

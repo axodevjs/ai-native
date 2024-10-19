@@ -1,13 +1,14 @@
 import WheelPicker from "@quidone/react-native-wheel-picker";
 import WheelPickerFeedback from "@quidone/react-native-wheel-picker-feedback";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import QuestionLayout from "../layouts/QuestionLayout/QuestionLayout";
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRegister } from "../../shared/hooks/useRegister";
+import QuestionLayout from "../layouts/QuestionLayout/QuestionLayout";
 
 const WeightScreen: React.FC = () => {
   const navigation = useNavigation();
-  const [weight, setWeight] = useState<number>(70); // Начальное значение веса, например, 70 кг
+  const { weight, setWeight } = useRegister();
 
   // Данные для WheelPicker, диапазон веса от 30 до 200 кг
   const weightData = [...Array(171).keys()].map((index) => {
@@ -17,10 +18,6 @@ const WeightScreen: React.FC = () => {
       label: weightValue.toString(),
     };
   });
-
-  useEffect(() => {
-    console.log(weight);
-  }, [weight]);
 
   return (
     <SafeAreaView>

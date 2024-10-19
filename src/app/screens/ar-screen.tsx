@@ -1,9 +1,9 @@
 // ArScreen.jsx
 import React, { useState } from "react";
 import { Text, View } from "react-native";
+import AnalysisCard from "../../entities/AnalysisCard/analysis-card";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import { Layout } from "../../widgets/ui/layout";
-import AnalysisCard from "../entities/AnalysisCard/analysis-card";
 // If you're using TypeScript, adjust the import paths accordingly
 
 export const ArScreen = () => {

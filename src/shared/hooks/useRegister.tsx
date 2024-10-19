@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useState } from "react";
 import { Alert } from "react-native";
+import { useUserStore } from "../../entities/model/useUserStore";
 
 export const useRegister = () => {
   const [email, setEmail] = useState<string>("");
@@ -12,6 +13,8 @@ export const useRegister = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigation = useNavigation();
 
+  const { age, weight, height, setAge, setWeight, setHeight } = useUserStore();
+
   const register = async () => {
     setLoading(true);
 
@@ -20,7 +23,12 @@ export const useRegister = () => {
       username,
       password,
       passwordConfirmation,
+      age,
+      weight,
+      height,
     };
+
+    console.log("data:", data);
 
     try {
       const response = await axios.post(
@@ -28,21 +36,23 @@ export const useRegister = () => {
         data
       );
 
-      const { id, email, accessToken, refreshToken } = response.data;
+      const { id, email: userEmail, accessToken, refreshToken } = response.data;
 
       await AsyncStorage.setItem(
         "userData",
         JSON.stringify({
           id,
-          email,
+          email: userEmail,
           username,
+          age,
+          weight,
+          height,
           accessToken,
           refreshToken,
         })
       );
 
       Alert.alert("Успешно", "Регистрация завершена");
-
       navigation.navigate("Login" as never);
     } catch (error: any) {
       console.error("Ошибка при регистрации:", error.message);
@@ -61,6 +71,12 @@ export const useRegister = () => {
     setPassword,
     passwordConfirmation,
     setPasswordConfirmation,
+    age,
+    setAge,
+    weight,
+    setWeight,
+    height,
+    setHeight,
     loading,
     register,
   };
