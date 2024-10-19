@@ -1,7 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { BottomTab } from "../../features/ui/BottomTab";
 import { ProfileCard } from "../../features/ui/ProfileCard";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
@@ -16,7 +16,7 @@ export const Layout: React.FC<ILayout> = ({ children, isProfile, isBack }) => {
   const navigation = useNavigation();
 
   const handleNavigate = (screen: string) => {
-    navigation.navigate(screen as never); // Navigate to the selected screen
+    navigation.navigate(screen as never);
   };
 
   return (
