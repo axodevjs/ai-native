@@ -42,8 +42,6 @@ export const useTextToImage = () => {
           },
         }
       );
-
-      console.log("response:", response);
     } catch (err: any) {
       console.error("Error:", err);
       setError(err.message || "An unexpected error occurred.");

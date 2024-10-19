@@ -16,7 +16,7 @@ const HomeScreen = () => {
         <Text className="text-2xl font-bold text-gray-700 mb-4">
           Health insights
         </Text>
-        <View className="flex-row space-x-2">
+        <View className="flex-row space-x-2 ">
           <InsightCard title="Water Drink" value="2 Liters" bgColor="#0E87CC" />
           <InsightCard
             margin="ml-4"

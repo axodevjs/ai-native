@@ -1,6 +1,7 @@
 // ArScreen.jsx
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
+import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import { Layout } from "../../widgets/ui/layout";
 import AnalysisCard from "../entities/AnalysisCard/analysis-card";
 // If you're using TypeScript, adjust the import paths accordingly
@@ -11,7 +12,7 @@ export const ArScreen = () => {
   return (
     <Layout>
       <View className="flex-row border-b border-gray-300 mt-12">
-        <TouchableOpacity
+        <MyTouchableOpacity
           className={`flex-1 items-center py-4 ${
             activeTab === "AR" ? "border-b-2 border-main" : ""
           }`}
@@ -24,8 +25,8 @@ export const ArScreen = () => {
           >
             AR Mode
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </MyTouchableOpacity>
+        <MyTouchableOpacity
           className={`flex-1 items-center py-4 ${
             activeTab === "Analysis" ? "border-b-2 border-main" : ""
           }`}
@@ -38,7 +39,7 @@ export const ArScreen = () => {
           >
             Analysis Mode
           </Text>
-        </TouchableOpacity>
+        </MyTouchableOpacity>
       </View>
       <View className="flex-1 p-4">
         {activeTab === "AR" && (
