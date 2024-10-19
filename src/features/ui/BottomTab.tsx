@@ -15,7 +15,7 @@ export const BottomTab = () => {
   };
 
   return (
-    <View className="w-[95%] ml-2 absolute bottom-12 flex flex-row justify-around items-center bg-dark py-4 px-4 rounded-3xl shadow-2xl">
+    <View className="w-[95%] ml-2 absolute bottom-4 flex flex-row justify-around items-center bg-dark py-4 px-4 rounded-3xl shadow-2xl">
       <NavigationButton
         icon={
           <FontAwesome6
