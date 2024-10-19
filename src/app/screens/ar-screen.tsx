@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AnalysisCard from "../../entities/AnalysisCard/analysis-card";
-import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import { Layout } from "../../widgets/ui/layout";
+import HistoryScreen from "../entities/HistoryCard/history-card";
 
 export const ArScreen = () => {
   const [activeTab, setActiveTab] = useState("Analysis");
@@ -30,23 +30,19 @@ export const ArScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           className={`flex-1 items-center py-4 ${
-            activeTab === "AR" ? "border-b-2 border-main" : ""
+            activeTab === "History" ? "border-b-2 border-main" : ""
           }`}
-          onPress={() => setActiveTab("AR")}
+          onPress={() => setActiveTab("History")}
         >
           <Text
             className={`text-lg ${
-              activeTab === "AR" ? "text-main font-bold" : "text-gray-500"
+              activeTab === "History" ? "text-main font-bold" : "text-gray-500"
             }`}
           >
-            Results
+            History
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
-
-      <MyTouchableOpacity onPress={() => navigation.navigate("Result")}>
-        <Text>result</Text>
-      </MyTouchableOpacity>
 
       <ScrollView className="flex-1 p-4">
         {activeTab === "Analysis" && (
@@ -54,9 +50,9 @@ export const ArScreen = () => {
             <AnalysisCard />
           </View>
         )}
-        {activeTab === "AR" && (
+        {activeTab === "History" && (
           <View className="flex-1 justify-center items-center">
-            <Text className="text-dark text-xl">Results</Text>
+            <HistoryScreen />
           </View>
         )}
       </ScrollView>
