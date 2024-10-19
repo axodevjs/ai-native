@@ -21,6 +21,8 @@
     "expo-font": "~12.0.10",
     "expo-gl": "~14.0.2",
     "expo-graphics": "^2.0.0",
+    "expo-image-picker": "^15.0.7",
+    "expo-notifications": "^0.28.18",
     "expo-splash-screen": "~0.27.6",
     "expo-status-bar": "~1.12.1",
     "i18next": "^23.16.0",

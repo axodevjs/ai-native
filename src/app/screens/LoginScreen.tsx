@@ -1,16 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Alert, SafeAreaView, StyleSheet, View } from "react-native";
 import { Input } from "react-native-elements";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useLogin } from "../../shared/hooks/useLogin";
+import { useNotifications } from "../../shared/hooks/useNotification";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import Text from "../../shared/ui/Text/Text";
 
 export const Login = () => {
   const { t } = useTranslation();
+  const { scheduleNotification } = useNotifications();
+
   const { email, setEmail, password, setPassword, loading, login } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
@@ -19,12 +22,35 @@ export const Login = () => {
     navigation.navigate(screen as never);
   };
 
+  const handlePress = () => {
+    scheduleNotification("Hello!", "This is a scheduled notification.");
+    Alert.alert("Notification Scheduled", "You will receive it in 5 seconds.");
+  };
+
   return (
     <SafeAreaView style={styles.container} className="flex items-center ">
       <View style={styles.innerContainer} className="mt-24">
+        <Button
+          mode="contained"
+          style={{
+            backgroundColor: "#91BB45",
+            width: "80%",
+            height: 50,
+            borderRadius: 50,
+            marginTop: 140,
+            justifyContent: "center",
+          }}
+          labelStyle={{ fontSize: 18, color: "white", textAlign: "center" }}
+          textColor="white"
+          onPress={login}
+          disabled={loading}
+        >
+          <Text className="text-secondary text-lg" weight="400" family="Nunito">
+            {loading ? t("loading") : t("login_button")}
+          </Text>
+        </Button>
         <Text style={styles.title}>{t("login_title")}</Text>
         <Text style={styles.subtitle}>{t("login_message")}</Text>
-
         <View style={styles.inputContainer} className="mt-16">
           <Input
             placeholder={t("email_label")}
