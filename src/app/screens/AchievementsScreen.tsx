@@ -2,13 +2,16 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { AchievementTab } from "../../shared/ui/AchievementTab/AchievementTab";
-import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import { TaskTabs } from "../../shared/ui/Tasks/TasksTab";
+import { LeaderboardTab } from "../../shared/ui/LeaderboardTab/LeaderboardTab";
+import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import Text from "../../shared/ui/Text/Text";
 import { Layout } from "../../widgets/ui/layout"; // Ensure the path is correct
 
 export const AchievementsScreen: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<any>("Achievements");
+  const [activeTab, setActiveTab] = useState<
+    "Achievements" | "Tasks" | "Leaderboard"
+  >("Achievements");
 
   return (
     <Layout isProfile>
@@ -31,6 +34,7 @@ export const AchievementsScreen: React.FC = () => {
               Achievements
             </Text>
           </MyTouchableOpacity>
+
           <MyTouchableOpacity
             className={`flex-1 items-center py-4 ${
               activeTab === "Tasks" ? "border-b-2 border-main" : ""
@@ -45,8 +49,28 @@ export const AchievementsScreen: React.FC = () => {
               Tasks
             </Text>
           </MyTouchableOpacity>
+
+          <MyTouchableOpacity
+            className={`flex-1 items-center py-4 ${
+              activeTab === "Leaderboard" ? "border-b-2 border-main" : ""
+            }`}
+            onPress={() => setActiveTab("Leaderboard")}
+          >
+            <Text
+              className={`text-lg ${
+                activeTab === "Leaderboard"
+                  ? "text-main font-bold"
+                  : "text-gray-500"
+              }`}
+            >
+              Leaderboard
+            </Text>
+          </MyTouchableOpacity>
         </View>
-        {activeTab === "Tasks" ? <TaskTabs /> : <AchievementTab />}
+
+        {activeTab === "Tasks" && <TaskTabs />}
+        {activeTab === "Achievements" && <AchievementTab />}
+        {activeTab === "Leaderboard" && <LeaderboardTab />}
       </View>
     </Layout>
   );

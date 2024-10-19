@@ -24,7 +24,7 @@ export const ProfileCard = () => {
   };
 
   return (
-    <View className="w-[95%] ml-2 mt-16 p-4 bg-dark rounded-2xl">
+    <View className="w-[96%] ml-2 mt-16 p-4 bg-dark rounded-2xl">
       <View className="flex-row items-center justify-between">
         <Avatar />
         <View className="flex-1 ml-3">
@@ -35,7 +35,9 @@ export const ProfileCard = () => {
             className="text-white text-2xl font-black"
             onPress={() => handleLogout()}
           >
-            <Text className="text-white text-2xl font-black">Logout</Text>
+            <Text className="text-white text-2xl font-black">
+              Hello, Askar!
+            </Text>
           </MyTouchableOpacity>
           <View className="flex flex-row">
             <BadgeWithIcon value={255} bgColor="#91BB45" margin="mb-2">
