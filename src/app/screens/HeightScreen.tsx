@@ -25,7 +25,7 @@ const HeightScreen: React.FC = () => {
     <QuestionLayout
       title="Ваш рост?"
       onBack={() => navigation.goBack()}
-      onContinue={() => navigation.navigate("Home" as never)}
+      onContinue={() => navigation.navigate("Registration" as never)}
       continueText="Продолжить"
     >
       <WheelPicker

@@ -7,7 +7,7 @@ import Text from "../../../shared/ui/Text/Text";
 interface QuestionLayoutProps {
   title: string;
   onBack: () => void;
-  onContinue: () => void;
+  onContinue: any;
   continueText: string;
   children: ReactNode;
 }
@@ -30,7 +30,7 @@ const QuestionLayout: React.FC<QuestionLayoutProps> = ({
         </Text>
       </View>
 
-      <View className="flex flex-col w-full items-center">{children}</View>
+      <View className="flex flex-col w-full items-center pb-6">{children}</View>
 
       <Button onPress={onContinue} text={continueText} variant="light" />
     </View>
