@@ -1,9 +1,9 @@
 import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
-import React, { useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
 import { View } from "react-native";
+import { useAuthStore } from "../../app/entities/auth/model/use-auth-store";
 import { useStatusStore } from "../../entities/StatusTab/model/useStatusStore";
-import { useGetUserData } from "../../shared/hooks/useGetUserData";
-import { useLogout } from "../../shared/hooks/useLogout";
 import { useUserData } from "../../shared/hooks/useUserData";
 import Avatar from "../../shared/ui/Avatar/avatar";
 import { BadgeWithIcon } from "../../shared/ui/Badge/Badge";
@@ -12,13 +12,16 @@ import Text from "../../shared/ui/Text/Text";
 
 export const ProfileCard = () => {
   const { userData } = useUserData();
-  const { userDataScore, getUserDataScore } = useGetUserData();
+  const { logout } = useAuthStore();
   const { setStatusTabVisible, isVisible, status, icon } = useStatusStore(); // Zustand store to check visibility
-  const { logout, isLoggingOut } = useLogout();
+  const navigation = useNavigation();
 
-  useEffect(() => {
-    getUserDataScore();
-  }, []);
+  console.log("userData:", userData?.user);
+
+  const handleLogout = () => {
+    navigation.navigate("Login" as never);
+    logout();
+  };
 
   return (
     <View className="w-[95%] ml-2 mt-16 p-4 bg-dark rounded-2xl">
@@ -26,11 +29,11 @@ export const ProfileCard = () => {
         <Avatar />
         <View className="flex-1 ml-3">
           <Text className="text-white text-2xl font-black">
-            Hello, {userData?.user.username}! 👋
+            {/* Hello, {userData?.user.username}! 👋 */}
           </Text>
           <MyTouchableOpacity
             className="text-white text-2xl font-black"
-            onPress={() => logout()}
+            onPress={() => handleLogout()}
           >
             <Text className="text-white text-2xl font-black">Logout</Text>
           </MyTouchableOpacity>

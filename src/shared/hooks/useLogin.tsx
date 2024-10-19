@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useState } from "react";
 import { Alert } from "react-native";
+import { IUserData } from "./useUserData"; // Import IUserData interface
 
 export const useLogin = () => {
   const [email, setEmail] = useState<string>("");
@@ -26,18 +27,23 @@ export const useLogin = () => {
 
       const { accessToken, refreshToken, user } = response.data;
 
-      const userData = {
-        accessToken,
-        refreshToken,
+      // Create user data structure according to IUserData
+      const userData: IUserData = {
         user: {
           id: user.id,
           username: user.username,
           email: user.email,
+          accessToken: accessToken,
+          statuses: user.statuses || [], // Handle statuses if available
         },
       };
 
+      // Save user data to AsyncStorage
       await AsyncStorage.setItem("userData", JSON.stringify(userData));
 
+      console.log("data saved successfully", JSON.stringify(userData));
+
+      // Navigate to Home screen
       navigation.navigate("Home" as never);
     } catch (error: any) {
       console.error("Ошибка при входе:", error.message);
