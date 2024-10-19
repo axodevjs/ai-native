@@ -10,7 +10,7 @@ export const ArScreen = () => {
 
   return (
     <Layout>
-      <View className="flex-row border-b border-gray-300">
+      <View className="flex-row border-b border-gray-300 mt-12">
         <TouchableOpacity
           className={`flex-1 items-center py-4 ${
             activeTab === "AR" ? "border-b-2 border-main" : ""
@@ -40,7 +40,6 @@ export const ArScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
-
       <View className="flex-1 p-4">
         {activeTab === "AR" && (
           <View className="flex-1 justify-center items-center">
