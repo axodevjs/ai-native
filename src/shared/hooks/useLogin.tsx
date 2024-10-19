@@ -20,7 +20,7 @@ export const useLogin = () => {
 
     try {
       const response = await axios.post(
-        "https://goida-fuck-them-all.up.railway.app/api/user/login",
+        "https://ai-express-production-f8e8.up.railway.app/api/user/login",
         data
       );
 
