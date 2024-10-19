@@ -18,6 +18,7 @@ import ResetPassword from "./src/app/screens/reset-password";
 import Start from "./src/app/screens/StartScreen";
 import WeightScreen from "./src/app/screens/WeightScreen";
 import i18n from "./src/shared/i18n/i18n";
+import { ResultScreen } from "./src/app/screens/result-screen";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
@@ -99,6 +100,23 @@ export default function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <NavigationContainer independent>
+        <Stack.Navigator
+          initialRouteName="Start"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Start" component={Start} />
+          <Stack.Screen name="Registration" component={Registration} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="Achievements" component={AchievementsScreen} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Age" component={AgeScreen} />
+          <Stack.Screen name="Weight" component={WeightScreen} />
+          <Stack.Screen name="Height" component={HeightScreen} />
+          <Stack.Screen name="Ar" component={ArScreen} />
+          <Stack.Screen name="Result" component={ResultScreen} />
+          <Stack.Screen name="Reset" component={ResetPassword} />
+        </Stack.Navigator>
         {token ? <AuthenticatedStack /> : <UnauthenticatedStack />}
       </NavigationContainer>
     </I18nextProvider>

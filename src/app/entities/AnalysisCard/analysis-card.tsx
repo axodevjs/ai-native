@@ -10,12 +10,16 @@ import {
 } from "react-native";
 import Text from "../../../shared/ui/Text/Text";
 import MyTouchableOpacity from "../../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
-import { useTextToImage } from "../../../shared/hooks/useTextToImage";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { useUserData } from "../../../shared/hooks/useUserData";
 
 export const AnalysisCard = () => {
   const [imageUri, setImageUri] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
-  const { textToImage, loading: apiLoading } = useTextToImage();
+  const [setTextResult] = useState<string | null>(null);
+  const { userData } = useUserData();
+  const navigation = useNavigation();
 
   const requestPermissions = async () => {
     try {
@@ -27,15 +31,58 @@ export const AnalysisCard = () => {
       if (cameraStatus !== "granted" || mediaLibraryStatus !== "granted") {
         Alert.alert(
           "Permissions Required",
-          "Both camera and media library access are required to scan."
+          "Both camera and media library access are required."
         );
         return false;
       }
       return true;
     } catch (error) {
       console.error("Error requesting permissions:", error);
-      Alert.alert("Error", "Failed to request permissions. Try again.");
+      Alert.alert("Error", "Failed to request permissions.");
       return false;
+    }
+  };
+
+  const convertUriToBlob = async (uri) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      return {
+        uri,
+        name: "photo.jpg",
+        type: blob.type,
+      };
+    } catch (error) {
+      console.error("Error converting URI to Blob:", error);
+      throw new Error("Failed to convert URI to Blob.");
+    }
+  };
+
+  const handleImageUpload = async (uri) => {
+    try {
+      setImageLoading(true);
+
+      const file = await convertUriToBlob(uri);
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await axios.post(
+        `https://ai-express-production-f8e8.up.railway.app/api/vision/image-to-text/${userData?.user.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Upload Response:", response.data);
+      const resultText = response.data.result?.text || response.data.result;
+      setTextResult(resultText);
+    } catch (error) {
+    } finally {
+      setImageLoading(false);
     }
   };
 
@@ -44,8 +91,6 @@ export const AnalysisCard = () => {
     if (!hasPermission) return;
 
     try {
-      setImageLoading(true);
-
       let result;
       if (fromGallery) {
         result = await ImagePicker.launchImageLibraryAsync({
@@ -63,105 +108,88 @@ export const AnalysisCard = () => {
         });
       }
 
-      console.log("Image Picker Result:", result);
-
       if (!result.canceled && result.assets?.[0]) {
         const uri = result.assets[0].uri;
-        console.log("Image URI:", uri);
         setImageUri(uri);
-        await textToImage(uri);
+        await handleImageUpload(uri);
       }
-    } catch (err) {
-      console.error("Error launching camera or gallery:", err);
-      Alert.alert("Error", "Something went wrong. Try again.");
-    } finally {
-      setImageLoading(false);
-    }
+    } catch (error) {}
   };
 
   return (
-    <View className=" flex items-center justify-center mt-8">
-      <View className="mb-6">
-        <Text className="text-4xl">Scan your meal.</Text>
-      </View>
-      <View style={styles.cardContainer}>
-        <View style={styles.iconContainer}>
-          <Text style={styles.icon}>🍔</Text>
+    <ScrollView className="h-[100vh] w-[90%]">
+      <View className="flex items-center justify-center mt-8 w-full">
+        <View className="mb-6">
+          <Text className="text-4xl">Scan your meal.</Text>
         </View>
+        <View style={styles.cardContainer}>
+          <View style={styles.iconContainer}>
+            <Text style={styles.icon}>🍔</Text>
+          </View>
 
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>Burger</Text>
-          <Text style={styles.subtitle}>Approx. 500 Calories</Text>
-        </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>Burger</Text>
+            <Text style={styles.subtitle}>Approx. 500 Calories</Text>
+          </View>
 
-        {(apiLoading || imageLoading) && (
-          <ActivityIndicator
-            size="large"
-            color="#91BB45"
-            style={styles.loader}
-          />
-        )}
-
-        {!apiLoading && imageUri && (
-          <Image
-            source={{ uri: imageUri }}
-            className="w-64 h-64 rounded-md"
-            // style={styles.image}
-            onError={(e) =>
-              console.error("Image Load Error:", e.nativeEvent.error)
-            }
-            onLoad={() => setImageLoading(false)}
-            onLoadStart={() => setImageLoading(true)}
-          />
-        )}
-
-        <View style={styles.buttonContainer}>
-          {imageUri ? (
-            <MyTouchableOpacity
-              style={styles.mainButton}
-              onPress={() => Alert.alert("Results", "Showing results...")}
-            >
-              <Text style={styles.buttonText}>Show Results</Text>
-            </MyTouchableOpacity>
-          ) : (
-            <>
-              <MyTouchableOpacity
-                style={[styles.mainButton, styles.buttonMarginRight]}
-                onPress={() => handleStartScan(false)}
-              >
-                <Text style={styles.buttonText}>Open Camera</Text>
-              </MyTouchableOpacity>
-
-              <MyTouchableOpacity
-                style={[styles.mainButton, styles.buttonMarginLeft]}
-                onPress={() => handleStartScan(true)}
-              >
-                <Text style={styles.buttonText}>Pick from Gallery</Text>
-              </MyTouchableOpacity>
-            </>
+          {imageLoading && (
+            <ActivityIndicator
+              size="large"
+              color="#91BB45"
+              style={styles.loader}
+            />
           )}
+
+          {imageUri && (
+            <Image
+              source={{ uri: imageUri }}
+              className="w-64 h-64 rounded-md"
+              onError={(e) =>
+                console.error("Image Load Error:", e.nativeEvent.error)
+              }
+              onLoad={() => setImageLoading(false)}
+              onLoadStart={() => setImageLoading(true)}
+            />
+          )}
+
+          <View style={styles.buttonContainer}>
+            {imageUri ? (
+              <MyTouchableOpacity
+                style={styles.mainButton}
+                onPress={() => navigation.navigate("Result" as never)}
+              >
+                <Text style={styles.buttonText}>Show Results</Text>
+              </MyTouchableOpacity>
+            ) : (
+              <>
+                <MyTouchableOpacity
+                  style={[styles.mainButton]}
+                  className="flex items-center justify-center"
+                  onPress={() => handleStartScan(false)}
+                >
+                  <Text style={styles.buttonText}>Open Camera</Text>
+                </MyTouchableOpacity>
+
+                <MyTouchableOpacity
+                  style={[styles.mainButton, styles.buttonMarginLeft]}
+                  onPress={() => handleStartScan(true)}
+                >
+                  <Text style={styles.buttonText}>Pick from Gallery</Text>
+                </MyTouchableOpacity>
+              </>
+            )}
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 20,
-    width: "100%",
-  },
   cardContainer: {
     width: "100%",
     backgroundColor: "white",
     borderRadius: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
     padding: 20,
     alignItems: "center",
   },
@@ -188,16 +216,11 @@ const styles = StyleSheet.create({
   loader: {
     marginVertical: 20,
   },
-  image: {
-    width: "100%",
-    height: 200,
-    borderRadius: 12,
-    marginTop: 20,
-    backgroundColor: "#f0f0f0",
+  resultContainer: {
+    marginTop: 10,
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
     marginTop: 20,
   },
   mainButton: {
@@ -209,11 +232,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
-  },
-  buttonMarginRight: {
-    marginRight: 10,
   },
   buttonMarginLeft: {
     marginLeft: 10,
