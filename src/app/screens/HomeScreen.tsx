@@ -7,10 +7,10 @@ import Text from "../../shared/ui/Text/Text";
 import { Layout } from "../../widgets/ui/layout";
 
 const insightsData = [
-  { id: "1", title: "Water Drink", value: "2 Liters", bgColor: "#0E87CC" },
-  { id: "2", title: "Steps Taken", value: "1578 total", bgColor: "#F87171" },
-  { id: "3", title: "Calories Burned", value: "500 kcal", bgColor: "#4ADE80" },
-  { id: "4", title: "Sleep", value: "8 hours", bgColor: "#818CF8" },
+  { id: "1", title: "Выпито воды", value: "2 литра", bgColor: "#0E87CC" },
+  { id: "2", title: "Пройдено шагов", value: "1578 всего", bgColor: "#F87171" },
+  { id: "3", title: "Сожжено калорий", value: "500 ккал", bgColor: "#4ADE80" },
+  { id: "4", title: "Сон", value: "8 часов", bgColor: "#818CF8" },
 ];
 
 const HomeScreen = () => {
@@ -29,9 +29,7 @@ const HomeScreen = () => {
   return (
     <Layout isProfile>
       <ScrollView className="px-4 mt-8">
-        <Text className="text-2xl font-bold text-gray-700 mb-4">
-          Health insights
-        </Text>
+        <Text className="text-2xl font-bold text-gray-700 mb-4">Здоровье</Text>
         <FlatList
           data={insightsData}
           keyExtractor={(item) => item.id}
@@ -41,18 +39,18 @@ const HomeScreen = () => {
           contentContainerStyle={{ paddingHorizontal: 10 }}
         />
         <Text className="text-xl font-semibold text-gray-700 mt-8 mb-4">
-          Virtual Consultant
+          Виртуальный консультант
         </Text>
         <ConsultationCard
-          name="🤖Our Chatbot"
-          paragraph="Upcoming Consultations"
-          buttonText="Chat"
+          name="🤖Наш Чатбот"
+          paragraph="Предстоящие консультации"
+          buttonText="Чат"
           screen="Chat"
         />
         <ConsultationCard
-          name="🍔Food Analysis"
-          paragraph="Analyze your meal"
-          buttonText="Start"
+          name="🍔Анализ питания"
+          paragraph="Анализируйте свою еду"
+          buttonText="Начать"
           margin="mt-4"
           screen="Ar"
         />

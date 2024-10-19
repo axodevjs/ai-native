@@ -5,7 +5,7 @@ import { AchievementTab } from "../../shared/ui/AchievementTab/AchievementTab";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import { TaskTabs } from "../../shared/ui/Tasks/TasksTab";
 import Text from "../../shared/ui/Text/Text";
-import { Layout } from "../../widgets/ui/layout"; // Ensure the path is correct
+import { Layout } from "../../widgets/ui/layout"; // Убедитесь, что путь правильный
 
 export const AchievementsScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<any>("Achievements");
@@ -28,7 +28,7 @@ export const AchievementsScreen: React.FC = () => {
                   : "text-gray-500"
               }`}
             >
-              Achievements
+              Достижения
             </Text>
           </MyTouchableOpacity>
           <MyTouchableOpacity
@@ -42,7 +42,7 @@ export const AchievementsScreen: React.FC = () => {
                 activeTab === "Tasks" ? "text-main font-bold" : "text-gray-500"
               }`}
             >
-              Tasks
+              Задачи
             </Text>
           </MyTouchableOpacity>
         </View>

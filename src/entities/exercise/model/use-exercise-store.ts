@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { addAchievement } from "../api/get-workouts.api";
+import { getSpecialWorkouts } from "../api/get-workouts.api";
 
 interface Workout {
   name: string;
   description: string;
   points: number;
   colories: string;
-  durations: number; // Изменяем тип с string на number
+  durations: number;
 }
 
 interface ExerciseStore {
@@ -14,11 +14,13 @@ interface ExerciseStore {
   currentExerciseIndex: number;
   timeLeft: number;
   isRunning: boolean;
+  loading: boolean;
   setExercises: (exercises: Workout[]) => void;
   startExercise: () => void;
   nextExercise: () => void;
   tick: () => void;
   reset: () => void;
+  fetchExercises: (workoutType: string) => void;
 }
 
 export const useExerciseStore = create<ExerciseStore>((set) => ({
@@ -26,42 +28,16 @@ export const useExerciseStore = create<ExerciseStore>((set) => ({
   currentExerciseIndex: 0,
   timeLeft: 0,
   isRunning: false,
+  loading: false,
   setExercises: (exercises) => set({ exercises }),
   startExercise: () =>
     set((state) => ({
       isRunning: true,
       timeLeft: state.exercises[state.currentExerciseIndex]?.durations || 0,
     })),
-  nextExercise: async () => {
-    set((state) => {
-      const currentExercise = state.exercises[state.currentExerciseIndex];
-
-      // Если текущего упражнения нет, ничего не делаем
-      if (!currentExercise) {
-        return {};
-      }
-
-      return {};
-    });
-
-    try {
-      // Выполняем асинхронный вызов addAchievement
-      const currentExercise =
-        useExerciseStore.getState().exercises[
-          useExerciseStore.getState().currentExerciseIndex
-        ];
-      await addAchievement(
-        currentExercise.points,
-        parseInt(currentExercise.colories, 10)
-      );
-    } catch (error) {
-      console.error("Ошибка при добавлении достижения:", error);
-    }
-
-    // Переход к следующему упражнению после завершения запроса
+  nextExercise: () =>
     set((state) => {
       const nextIndex = state.currentExerciseIndex + 1;
-
       if (nextIndex < state.exercises.length) {
         return {
           currentExerciseIndex: nextIndex,
@@ -75,14 +51,31 @@ export const useExerciseStore = create<ExerciseStore>((set) => ({
           currentExerciseIndex: state.exercises.length,
         };
       }
-    });
-  },
+    }),
   tick: () =>
     set((state) => ({ timeLeft: state.timeLeft > 0 ? state.timeLeft - 1 : 0 })),
   reset: () =>
     set({
+      exercises: [],
       currentExerciseIndex: 0,
       timeLeft: 0,
       isRunning: false,
+      loading: false,
     }),
+  fetchExercises: async (workoutType: string) => {
+    set({ loading: true });
+    try {
+      const { workouts } = await getSpecialWorkouts(workoutType);
+
+      const parsedWorkouts = workouts.map((workout) => ({
+        ...workout,
+        durations: parseInt(workout.durations, 10),
+      }));
+
+      set({ exercises: parsedWorkouts, loading: false });
+    } catch (error) {
+      console.error("Failed to fetch exercises:", error);
+      set({ loading: false });
+    }
+  },
 }));

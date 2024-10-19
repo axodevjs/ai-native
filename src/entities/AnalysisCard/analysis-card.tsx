@@ -30,8 +30,8 @@ export const AnalysisCard = () => {
 
     if (cameraStatus !== "granted" || mediaLibraryStatus !== "granted") {
       Alert.alert(
-        "Permissions Required",
-        "Camera and media library access are required."
+        "Требуются разрешения",
+        "Необходимо предоставить доступ к камере и медиатеке."
       );
       return false;
     }
@@ -47,7 +47,7 @@ export const AnalysisCard = () => {
       history.push(newEntry);
       await AsyncStorage.setItem("mealHistory", JSON.stringify(history));
     } catch (error) {
-      console.error("Error saving result to history:", error);
+      console.error("Ошибка при сохранении результата в историю:", error);
     }
   };
 
@@ -71,8 +71,8 @@ export const AnalysisCard = () => {
       await saveResultToHistory(result, uri);
       setIsResultReady(true);
     } catch (error) {
-      console.error("Error uploading image:", error);
-      Alert.alert("Upload Error", "Failed to upload the image.");
+      console.error("Ошибка при загрузке изображения:", error);
+      Alert.alert("Ошибка загрузки", "Не удалось загрузить изображение.");
     } finally {
       setImageLoading(false);
     }
@@ -101,7 +101,7 @@ export const AnalysisCard = () => {
     <ScrollView className="h-[100vh] w-[90%]">
       <View className="flex items-center justify-center mt-8 w-full">
         <View className="mb-6">
-          <Text className="text-4xl">Scan your meal.</Text>
+          <Text className="text-4xl">Сканируйте вашу еду.</Text>
         </View>
 
         <View style={styles.cardContainer}>
@@ -110,8 +110,8 @@ export const AnalysisCard = () => {
           </View>
 
           <View style={styles.textContainer}>
-            <Text style={styles.title}>Burger</Text>
-            <Text style={styles.subtitle}>Approx. 500 Calories</Text>
+            <Text style={styles.title}>Бургер</Text>
+            <Text style={styles.subtitle}>Примерно 500 Калорий</Text>
           </View>
 
           {imageLoading && (
@@ -127,7 +127,10 @@ export const AnalysisCard = () => {
               source={{ uri: imageUri }}
               className="w-64 h-64 rounded-md"
               onError={(e) =>
-                console.error("Image Load Error:", e.nativeEvent.error)
+                console.error(
+                  "Ошибка загрузки изображения:",
+                  e.nativeEvent.error
+                )
               }
               onLoad={() => setImageLoading(false)}
               onLoadStart={() => setImageLoading(true)}
@@ -145,7 +148,7 @@ export const AnalysisCard = () => {
                 onPress={() => navigation.navigate("Result" as never)}
               >
                 {isResultReady ? (
-                  <Text style={styles.buttonText}>Show Results</Text>
+                  <Text style={styles.buttonText}>Показать результаты</Text>
                 ) : (
                   <ActivityIndicator size="small" color="#FFF" />
                 )}
@@ -157,14 +160,14 @@ export const AnalysisCard = () => {
                   className="flex items-center justify-center"
                   onPress={() => handleStartScan(false)}
                 >
-                  <Text style={styles.buttonText}>Open Camera</Text>
+                  <Text style={styles.buttonText}>Открыть камеру</Text>
                 </MyTouchableOpacity>
 
                 <MyTouchableOpacity
                   style={[styles.mainButton, styles.buttonMarginLeft]}
                   onPress={() => handleStartScan(true)}
                 >
-                  <Text style={styles.buttonText}>Pick from Gallery</Text>
+                  <Text style={styles.buttonText}>Выбрать из галереи</Text>
                 </MyTouchableOpacity>
               </>
             )}

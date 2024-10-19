@@ -25,7 +25,7 @@ export const ArScreen = () => {
               activeTab === "Analysis" ? "text-main font-bold" : "text-gray-500"
             }`}
           >
-            Analysis Mode
+            Режим анализа
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -39,7 +39,7 @@ export const ArScreen = () => {
               activeTab === "History" ? "text-main font-bold" : "text-gray-500"
             }`}
           >
-            History
+            История
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
