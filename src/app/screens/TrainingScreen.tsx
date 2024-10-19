@@ -6,14 +6,13 @@ import {
   Dumbbell,
   Heart,
 } from "lucide-react-native";
-import React, { FC, ReactNode, useEffect } from "react";
+import React, { FC, ReactNode } from "react";
 import { View } from "react-native";
 import {
   GestureHandlerRootView,
   ScrollView,
 } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getWorkouts } from "../../entities/exercise/api/get-workouts.api";
 import { useExerciseStore } from "../../entities/exercise/model/use-exercise-store";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import Text from "../../shared/ui/Text/Text";
@@ -23,34 +22,21 @@ const TrainingType: FC<{
   icon: ReactNode;
   title: string;
   description: string;
-}> = ({ icon, title, description }) => {
+  workoutType: string;
+}> = ({ icon, title, description, workoutType }) => {
   const navigation = useNavigation();
-  const { setExercises } = useExerciseStore();
+  const { fetchExercises } = useExerciseStore();
 
-  useEffect(() => {
-    const loadWorkouts = async () => {
-      try {
-        const { workouts } = await getWorkouts();
-
-        // Преобразуем поле durations из строки в число
-        const parsedWorkouts = workouts.map((workout) => ({
-          ...workout,
-          durations: parseInt(workout.durations, 10), // Преобразуем в число
-        }));
-
-        console.log("Список тренировок:", parsedWorkouts);
-        setExercises(parsedWorkouts); // Сохраняем тренировки в Zustand Store
-      } catch (error) {
-        console.error("Не удалось загрузить тренировки", error);
-      }
-    };
-
-    loadWorkouts();
-  }, [setExercises]);
+  const handlePress = () => {
+    // Navigate to Exercise screen immediately
+    navigation.navigate("Exercise" as never);
+    // Fetch exercises for the selected category
+    fetchExercises(workoutType);
+  };
 
   return (
     <MyTouchableOpacity
-      onPress={() => navigation.navigate("Exercise" as never)}
+      onPress={handlePress}
       className="w-full flex flex-col mt-4"
     >
       <View className="w-full p-5 flex flex-row justify-between items-center rounded-[30px] bg-gray-100 border-gray-200 border-[2px]">
@@ -81,40 +67,45 @@ const TrainingScreen = () => {
         <SafeAreaView className="py-5 pb-[110] flex flex-col w-full px-4">
           <ScrollView horizontal={false}>
             <Text family="Nunito" weight="800" className="text-2xl">
-              Training
+              Тренировка
             </Text>
             <Text
               family="Nunito"
               weight="400"
               className="text-base leading-5 mt-2 mb-3 text-gray-400"
             >
-              Choose the type of workout and our AI will select the optimal one
-              for your parameters
+              Выберите тип тренировки, и наш ИИ подберет оптимальную для вас
+              программу
             </Text>
             <TrainingType
+              workoutType="Strength"
               icon={<BicepsFlexed size={16} color={"white"} />}
-              title="Strength Training"
-              description="Build muscle and increase strength with effective resistance exercises."
+              title="Силовая тренировка"
+              description="Набирайте мышечную массу и увеличивайте силу с помощью эффективных упражнений с отягощениями."
             />
             <TrainingType
+              workoutType="Cardio"
               icon={<Heart size={16} color={"white"} />}
-              title="Cardio"
-              description="Burn calories and improve endurance with aerobic workouts that keep your heart rate up."
+              title="Кардио"
+              description="Сжигайте калории и улучшайте выносливость с помощью аэробных тренировок, поддерживающих высокий пульс."
             />
             <TrainingType
+              workoutType="Endurance"
               icon={<Activity size={16} color={"white"} />}
-              title="Endurance Training"
-              description="Enhance your ability to sustain high-intensity exercise over longer periods."
+              title="Тренировка на выносливость"
+              description="Улучшайте способность к выполнению интенсивных упражнений на длительное время."
             />
             <TrainingType
+              workoutType="Functional"
               icon={<Dumbbell size={16} color={"white"} />}
-              title="Functional Training"
-              description="Improve daily movements by developing strength and flexibility for everyday life."
+              title="Функциональная тренировка"
+              description="Развивайте силу и гибкость для повседневной жизни, улучшая основные движения."
             />
             <TrainingType
+              workoutType="Yoga"
               icon={<Cross size={16} color={"white"} />}
-              title="Yoga & Stretching"
-              description="Calm your mind and body with exercises focused on flexibility and relaxation."
+              title="Йога и растяжка"
+              description="Успокойте ум и тело с помощью упражнений, направленных на гибкость и релаксацию."
             />
           </ScrollView>
         </SafeAreaView>

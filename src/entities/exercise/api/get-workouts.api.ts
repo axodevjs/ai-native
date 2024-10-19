@@ -18,6 +18,24 @@ export const getWorkouts = async (): Promise<GetWorkoutsResponse> => {
   }
 };
 
+// Updated getWorkouts function to fetch workouts based on type
+
+// Function to get workouts based on the selected type
+export const getSpecialWorkouts = async (
+  type: string
+): Promise<GetWorkoutsResponse> => {
+  try {
+    const response = await apiClient.post<GetWorkoutsResponse>(
+      "/user/get-special-workouts",
+      { type }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching workouts:", error);
+    throw error;
+  }
+};
+
 export const addAchievement = async (points: number, colories: number) => {
   try {
     const response = await apiClient.post("/user/add-achievement", {

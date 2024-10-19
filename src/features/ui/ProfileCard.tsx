@@ -31,6 +31,9 @@ export const ProfileCard = () => {
           {/* <Text className="text-white text-2xl font-black">
             Hello, {userData?.user?.username}! 👋
           </Text> */}
+          {/* <Text className="text-white text-2xl font-black">
+            Привет, {userData?.user?.username}! 👋
+          </Text> */}
           <MyTouchableOpacity
             className="text-white text-2xl font-black"
             onPress={() => handleLogout()}
@@ -55,7 +58,7 @@ export const ProfileCard = () => {
         </View>
       </View>
       <View className="mt-6">
-        <Text className="text-white">Level: 1</Text>
+        <Text className="text-white">Уровень: 1</Text>
         <View className="h-2 bg-gray-300 rounded-full mt-2 overflow-hidden">
           <View
             className="h-full bg-main"
