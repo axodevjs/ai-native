@@ -30,6 +30,7 @@ const AuthenticatedStack = () => (
     <AuthStack.Screen name="Chat" component={ChatScreen} />
     <AuthStack.Screen name="Achievements" component={AchievementsScreen} />
     <AuthStack.Screen name="Ar" component={ArScreen} />
+    <AuthStack.Screen name="Result" component={ResultScreen} />
   </AuthStack.Navigator>
 );
 
@@ -100,7 +101,7 @@ export default function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <NavigationContainer independent>
-        <Stack.Navigator
+        {/* <Stack.Navigator
           initialRouteName="Start"
           screenOptions={{ headerShown: false }}
         >
@@ -109,14 +110,14 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen name="Achievements" component={AchievementsScreen} />
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Age" component={AgeScreen} />
           <Stack.Screen name="Weight" component={WeightScreen} />
           <Stack.Screen name="Height" component={HeightScreen} />
           <Stack.Screen name="Ar" component={ArScreen} />
           <Stack.Screen name="Result" component={ResultScreen} />
           <Stack.Screen name="Reset" component={ResetPassword} />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
         {token ? <AuthenticatedStack /> : <UnauthenticatedStack />}
       </NavigationContainer>
     </I18nextProvider>
