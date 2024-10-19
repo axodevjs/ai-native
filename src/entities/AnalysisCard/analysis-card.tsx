@@ -1,5 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import {
@@ -7,80 +5,74 @@ import {
   Alert,
   Image,
   ScrollView,
-  StyleSheet,
   View,
+  StyleSheet,
 } from "react-native";
-import { useUserData } from "../../shared/hooks/useUserData";
-import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import Text from "../../shared/ui/Text/Text";
+import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { useUserData } from "../../shared/hooks/useUserData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AnalysisCard = () => {
-  const [imageUri, setImageUri] = useState(null);
-  const [imageLoading, setImageLoading] = useState(false);
-  const [setTextResult] = useState<string | null>(null);
+  const [imageUri, setImageUri] = useState<string | null>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>(false);
+  const [isResultReady, setIsResultReady] = useState<boolean>(false);
   const { userData } = useUserData();
   const navigation = useNavigation();
 
   const requestPermissions = async () => {
-    try {
-      const { status: cameraStatus } =
-        await ImagePicker.requestCameraPermissionsAsync();
-      const { status: mediaLibraryStatus } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const { status: cameraStatus } =
+      await ImagePicker.requestCameraPermissionsAsync();
+    const { status: mediaLibraryStatus } =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-      if (cameraStatus !== "granted" || mediaLibraryStatus !== "granted") {
-        Alert.alert(
-          "Permissions Required",
-          "Both camera and media library access are required."
-        );
-        return false;
-      }
-      return true;
-    } catch (error) {
-      console.error("Error requesting permissions:", error);
-      Alert.alert("Error", "Failed to request permissions.");
+    if (cameraStatus !== "granted" || mediaLibraryStatus !== "granted") {
+      Alert.alert(
+        "Permissions Required",
+        "Camera and media library access are required."
+      );
       return false;
     }
+    return true;
   };
 
-  const convertUriToBlob = async (uri) => {
+  const saveResultToHistory = async (result: any, uri: string) => {
     try {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-      return {
-        uri,
-        name: "photo.jpg",
-        type: blob.type,
-      };
+      const existingHistory = await AsyncStorage.getItem("mealHistory");
+      const history = existingHistory ? JSON.parse(existingHistory) : [];
+      const newEntry = { id: Date.now(), result, uri };
+
+      history.push(newEntry);
+      await AsyncStorage.setItem("mealHistory", JSON.stringify(history));
     } catch (error) {
-      console.error("Error converting URI to Blob:", error);
-      throw new Error("Failed to convert URI to Blob.");
+      console.error("Error saving result to history:", error);
     }
   };
 
-  const handleImageUpload = async (uri) => {
+  const handleImageUpload = async (uri: string) => {
     try {
       setImageLoading(true);
+      setIsResultReady(false);
 
-      const file = await convertUriToBlob(uri);
-
+      const response = await fetch(uri);
+      const blob = await response.blob();
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("image", { uri, name: "photo.jpg", type: blob.type });
 
-      const response = await axios.post(
-        `https://ai-express-production-f8e8.up.railway.app/api/vision/image-to-text/${userData?.user.id}`,
+      const apiResponse = await axios.post(
+        https://ai-express-production-f8e8.up.railway.app/api/vision/image-to-text/${userData?.user.id},
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      console.log("Upload Response:", response.data);
-      const resultText = response.data.result?.text || response.data.result;
-      setTextResult(resultText);
+      const result = apiResponse.data.result;
+      await saveResultToHistory(result, uri);
+      setIsResultReady(true);
     } catch (error) {
+      console.error("Error uploading image:", error);
+      Alert.alert("Upload Error", "Failed to upload the image.");
     } finally {
       setImageLoading(false);
     }
@@ -90,30 +82,19 @@ export const AnalysisCard = () => {
     const hasPermission = await requestPermissions();
     if (!hasPermission) return;
 
-    try {
-      let result;
-      if (fromGallery) {
-        result = await ImagePicker.launchImageLibraryAsync({
+    const result = fromGallery
+      ? await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-      } else {
-        result = await ImagePicker.launchCameraAsync({
+        })
+      : await ImagePicker.launchCameraAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
         });
-      }
 
-      if (!result.canceled && result.assets?.[0]) {
-        const uri = result.assets[0].uri;
-        setImageUri(uri);
-        await handleImageUpload(uri);
-      }
-    } catch (error) {}
+    if (!result.canceled && result.assets?.[0]) {
+      const uri = result.assets[0].uri;
+      setImageUri(uri);
+      await handleImageUpload(uri);
+    }
   };
 
   return (
@@ -122,6 +103,7 @@ export const AnalysisCard = () => {
         <View className="mb-6">
           <Text className="text-4xl">Scan your meal.</Text>
         </View>
+
         <View style={styles.cardContainer}>
           <View style={styles.iconContainer}>
             <Text style={styles.icon}>🍔</Text>
@@ -140,8 +122,7 @@ export const AnalysisCard = () => {
             />
           )}
 
-          {imageUri && (
-            <Image
+          {imageUri && (<Image
               source={{ uri: imageUri }}
               className="w-64 h-64 rounded-md"
               onError={(e) =>
@@ -155,15 +136,23 @@ export const AnalysisCard = () => {
           <View style={styles.buttonContainer}>
             {imageUri ? (
               <MyTouchableOpacity
-                style={styles.mainButton}
+                style={[
+                  styles.mainButton,
+                  !isResultReady && styles.disabledButton,
+                ]}
+                disabled={!isResultReady}
                 onPress={() => navigation.navigate("Result" as never)}
               >
-                <Text style={styles.buttonText}>Show Results</Text>
+                {isResultReady ? (
+                  <Text style={styles.buttonText}>Show Results</Text>
+                ) : (
+                  <ActivityIndicator size="small" color="#FFF" />
+                )}
               </MyTouchableOpacity>
             ) : (
               <>
                 <MyTouchableOpacity
-                  style={[styles.mainButton]}
+                  style={styles.mainButton}
                   className="flex items-center justify-center"
                   onPress={() => handleStartScan(false)}
                 >
@@ -216,9 +205,6 @@ const styles = StyleSheet.create({
   loader: {
     marginVertical: 20,
   },
-  resultContainer: {
-    marginTop: 10,
-  },
   buttonContainer: {
     flexDirection: "row",
     marginTop: 20,
@@ -228,10 +214,14 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: "#91BB45",
     borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  disabledButton: {
+    backgroundColor: "#B0B0B0",
   },
   buttonText: {
     color: "white",
-    textAlign: "center",
     fontSize: 14,
     fontWeight: "bold",
   },
