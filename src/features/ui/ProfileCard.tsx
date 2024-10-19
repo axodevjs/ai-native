@@ -32,7 +32,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         <Avatar.Image size={60} source={{ uri: avatarUrl }} />
         <View className="flex-1 ml-3">
           <Text className="text-white text-2xl font-black">
-            Hello, {userData?.user.username}! 👋
+            Hello, {userData?.user?.username}! 👋
           </Text>
           <View className="flex flex-row">
             <BadgeWithIcon value={255} bgColor="#91BB45" margin="mb-2">
