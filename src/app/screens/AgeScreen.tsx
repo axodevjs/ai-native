@@ -19,7 +19,7 @@ const AgeScreen: React.FC = () => {
   });
 
   useEffect(() => {
-    console.log(age);
+    console.log(`Current age in store: ${age}`);
   }, [age]);
 
   return (

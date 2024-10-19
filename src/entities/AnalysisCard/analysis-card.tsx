@@ -8,11 +8,11 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import Text from "../../../shared/ui/Text/Text";
-import MyTouchableOpacity from "../../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
+import Text from "../../shared/ui/Text/Text";
+import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { useUserData } from "../../../shared/hooks/useUserData";
+import { useUserData } from "../../shared/hooks/useUserData";
 
 export const AnalysisCard = () => {
   const [imageUri, setImageUri] = useState(null);
@@ -68,7 +68,7 @@ export const AnalysisCard = () => {
       formData.append("image", file);
 
       const response = await axios.post(
-        `https://ai-express-production-f8e8.up.railway.app/api/vision/image-to-text/${userData?.user.id}`,
+        https://ai-express-production-f8e8.up.railway.app/api/vision/image-to-text/${userData?.user.id},
         formData,
         {
           headers: {

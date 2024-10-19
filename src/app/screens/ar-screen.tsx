@@ -1,11 +1,11 @@
 // ArScreen.jsx
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { Layout } from "../../widgets/ui/layout";
-import AnalysisCard from "../entities/AnalysisCard/analysis-card";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AnalysisCard from "../../entities/AnalysisCard/analysis-card";
 import MyTouchableOpacity from "../../shared/ui/MyTouchableOpacity/MyTouchableOpacity";
-import { useNavigation } from "@react-navigation/native";
+import { Layout } from "../../widgets/ui/layout";
 
 export const ArScreen = () => {
   const [activeTab, setActiveTab] = useState("Analysis");

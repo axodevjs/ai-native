@@ -1,7 +1,7 @@
 import WheelPicker from "@quidone/react-native-wheel-picker";
 import WheelPickerFeedback from "@quidone/react-native-wheel-picker-feedback";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React from "react";
 import { useOnboardingStore } from "../../features/onboarding/model/use-onboarding-store";
 import QuestionLayout from "../layouts/QuestionLayout/QuestionLayout";
 
@@ -17,10 +17,6 @@ const HeightScreen: React.FC = () => {
       label: heightValue.toString(),
     };
   });
-
-  useEffect(() => {
-    console.log(height);
-  }, [height]);
 
   return (
     <QuestionLayout

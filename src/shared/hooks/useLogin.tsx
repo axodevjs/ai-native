@@ -38,7 +38,7 @@ export const useLogin = () => {
 
       await AsyncStorage.setItem("userData", JSON.stringify(userData));
 
-      navigation.navigate("Age" as never);
+      navigation.navigate("Home" as never);
     } catch (error: any) {
       console.error("Ошибка при входе:", error.message);
       Alert.alert("Ошибка", "Ошибка при входе, проверьте данные.");
