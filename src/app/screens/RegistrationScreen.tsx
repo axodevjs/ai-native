@@ -3,10 +3,12 @@ import React, { useRef, useState } from "react";
 import { useOnboardingStore } from "../../features/onboarding/model/use-onboarding-store";
 import { RegistrationForm } from "../../widgets/registration-form/ui/registration-form";
 import { registerUser } from "../entities/auth/api/auth.api";
+import { useAuthStore } from "../entities/auth/model/use-auth-store";
 import QuestionLayout from "../layouts/QuestionLayout/QuestionLayout";
 
 const RegistrationScreen = () => {
   const navigation = useNavigation();
+  const { setToken } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const formSubmitRef = useRef<() => void>(() => {}); // Сохраняем ссылку на функцию отправки формы
   const { age, height, weight } = useOnboardingStore();
@@ -24,6 +26,7 @@ const RegistrationScreen = () => {
         passwordConfirmation: data.password,
       });
       console.log(registerResponse);
+      setToken(registerResponse.accessToken);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

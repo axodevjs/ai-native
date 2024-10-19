@@ -15,6 +15,7 @@ import HomeScreen from "./src/app/screens/HomeScreen";
 import LoginScreen from "./src/app/screens/LoginScreen";
 import Registration from "./src/app/screens/RegistrationScreen";
 import ResetPassword from "./src/app/screens/reset-password";
+import ResultScreen from "./src/app/screens/result-screen";
 import Start from "./src/app/screens/StartScreen";
 import TrainingScreen from "./src/app/screens/TrainingScreen";
 import WeightScreen from "./src/app/screens/WeightScreen";
@@ -49,7 +50,7 @@ const UnauthenticatedStack = () => (
 );
 
 export default function App() {
-  const { loadToken, token, setToken, logout } = useAuthStore();
+  const { loadAuthData, token, setToken, logout } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
   const [fontsLoaded] = useFonts({
     // Шрифты Nunito
@@ -86,7 +87,7 @@ export default function App() {
 
   useEffect(() => {
     const prepareApp = async () => {
-      await loadToken();
+      await loadAuthData();
       if (fontsLoaded) {
         await SplashScreen.hideAsync();
       }

@@ -28,6 +28,7 @@ export interface User {
 export interface RegisterUserRdo {
   message: string;
   user: User;
+  accessToken: string;
 }
 
 // Интерфейс для входа пользователя (Data Transfer Object)
