@@ -1,22 +1,40 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { useOnboardingStore } from "../../features/onboarding/model/use-onboarding-store";
 import { RegistrationForm } from "../../widgets/registration-form/ui/registration-form";
+import { registerUser } from "../entities/auth/api/auth.api";
 import QuestionLayout from "../layouts/QuestionLayout/QuestionLayout";
 
 const RegistrationScreen = () => {
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
   const formSubmitRef = useRef<() => void>(() => {}); // Сохраняем ссылку на функцию отправки формы
+  const { age, height, weight } = useOnboardingStore();
 
   // Обработчик успешной отправки формы
-  const handleSubmit = (data: any) => {
-    console.log("Данные формы:", data);
-    // Логика перехода на следующий экран после успешной регистрации
-    // navigation.navigate("NextScreen" as never); // Замените "NextScreen" на имя нужного экрана
+  const handleSubmit = async (data: any) => {
+    try {
+      setIsLoading(true);
+      console.log("Данные формы:", data);
+      const registerResponse = await registerUser({
+        ...data,
+        age,
+        height,
+        weight,
+        passwordConfirmation: data.password,
+      });
+      console.log(registerResponse);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
   };
 
   return (
     <QuestionLayout
-      title="Заполните поля"
+      title="Завершение регистрации"
+      buttonDisabled={isLoading}
       onBack={() => navigation.goBack()}
       onContinue={() => formSubmitRef.current()} // Вызываем сохранённую функцию отправки формы
       continueText="Готово!"

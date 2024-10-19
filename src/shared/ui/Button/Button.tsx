@@ -8,34 +8,30 @@ interface IButton {
   withArrow?: boolean;
   text: string;
   onPress: () => void;
-  arrowIcon?: boolean;
+  disabled?: boolean;
 }
 
 const Button: FC<IButton> = ({
   variant,
-  withArrow,
+  withArrow = false,
   text,
   onPress,
-  arrowIcon,
+  disabled = false,
 }) => {
   return (
     <MyTouchableOpacity
-      onPress={onPress}
+      onPress={!disabled ? onPress : undefined}
+      activeOpacity={disabled ? 1 : 0.7}
       className={`w-full flex-row h-[60px] rounded-[20px] flex justify-center items-center ${
         variant === "dark" ? "bg-dark" : "bg-main"
-      }`}
+      } ${disabled ? "opacity-70" : "opacity-100"}`}
     >
       <Text className="text-white text-base" weight="800" family="Nunito">
         {text}
       </Text>
-      {
-        <ArrowRight
-          className="ml-4"
-          strokeWidth={2}
-          size={20}
-          color={"white"}
-        />
-      }
+      {withArrow && (
+        <ArrowRight className="ml-4" strokeWidth={2} size={20} color="white" />
+      )}
     </MyTouchableOpacity>
   );
 };

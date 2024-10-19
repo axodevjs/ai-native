@@ -6,30 +6,19 @@ import { z } from "zod";
 import Input from "../../../shared/ui/Input/Input";
 
 // Схема валидации с использованием zod
-const schema = z
-  .object({
-    username: z
-      .string()
-      .min(3, "Имя пользователя должно содержать минимум 3 символа"),
-    email: z.string().email("Неверный формат email"),
-    password: z.string().min(6, "Пароль должен содержать минимум 6 символов"),
-    confirmPassword: z
-      .string()
-      .min(6, "Пароль должен содержать минимум 6 символов"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Пароли не совпадают",
-    path: ["confirmPassword"],
-  });
+const schema = z.object({
+  email: z.string().email("Неверный формат email"),
+  password: z.string().min(6, "Пароль должен содержать минимум 6 символов"),
+});
 
 type FormData = z.infer<typeof schema>;
 
-interface RegistrationFormProps {
+interface LoginFormProps {
   onSubmit: (data: FormData) => void;
   setSubmitFunction: (submitFn: () => void) => void;
 }
 
-export const RegistrationForm: React.FC<RegistrationFormProps> = ({
+export const LoginForm: React.FC<LoginFormProps> = ({
   onSubmit,
   setSubmitFunction,
 }) => {
@@ -50,25 +39,9 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     <View className="w-full">
       <Controller
         control={control}
-        name="username"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <Input
-            label="Имя пользователя"
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            placeholder="Введите ваше имя"
-            style={errors.username ? { borderColor: "#EBAFB0" } : {}}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
         name="email"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            classNameContainer="mt-4"
             label="Email"
             value={value}
             onChangeText={onChange}
@@ -92,23 +65,6 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
             onBlur={onBlur}
             placeholder="Введите пароль"
             style={errors.password ? { borderColor: "#EBAFB0" } : {}}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
-        name="confirmPassword"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <Input
-            classNameContainer="mt-4"
-            label="Подтверждение пароля"
-            type="password"
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            placeholder="Введите пароль еще раз"
-            style={errors.confirmPassword ? { borderColor: "#EBAFB0" } : {}}
           />
         )}
       />
