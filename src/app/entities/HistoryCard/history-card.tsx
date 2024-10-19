@@ -1,20 +1,19 @@
-import React, { useState, useCallback, useRef } from "react";
-import {
-  View,
-  Image,
-  StyleSheet,
-  Alert,
-  ScrollView,
-  ActivityIndicator,
-  TouchableOpacity,
-  Platform,
-  UIManager,
-  Text,
-  Animated,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  UIManager,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // Enable layout animations on Android
 if (
@@ -25,20 +24,19 @@ if (
 }
 
 export const HistoryScreen = () => {
-  const [latestResult, setLatestResult] = useState<any | null>(null);
+  const [latestResult, setLatestResult] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const animatedValue = useRef(new Animated.Value(0)).current; // Only one value for latest result animation
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const loadLatestResult = async () => {
     try {
       const savedHistory = await AsyncStorage.getItem("mealHistory");
       const parsedHistory = savedHistory ? JSON.parse(savedHistory) : [];
-      console.log("Loaded History:", parsedHistory);
 
       if (parsedHistory.length > 0) {
-        setLatestResult(parsedHistory[parsedHistory.length - 1]);
+        setLatestResult(parsedHistory);
       } else {
-        setLatestResult(null);
+        setLatestResult([]);
         Alert.alert("No Results", "No recent results found.");
       }
     } catch (error) {
@@ -46,13 +44,16 @@ export const HistoryScreen = () => {
     }
   };
 
-  const toggleSection = () => {
-    const isExpanded = animatedValue._value === 1;
-    Animated.timing(animatedValue, {
-      toValue: isExpanded ? 0 : 1,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
+  const goToNextResult = () => {
+    if (currentIndex < latestResult.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const goToPreviousResult = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
   };
 
   useFocusEffect(
@@ -74,7 +75,7 @@ export const HistoryScreen = () => {
     );
   }
 
-  if (!latestResult) {
+  if (latestResult.length === 0) {
     return (
       <SafeAreaView style={styles.centeredContainer}>
         <Text>No Meal History Available</Text>
@@ -82,55 +83,71 @@ export const HistoryScreen = () => {
     );
   }
 
-  const heightInterpolation = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 300], // Adjust based on content size
-  });
+  const currentResult = latestResult[currentIndex];
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.entryContainer}>
-          <TouchableOpacity onPress={toggleSection} style={styles.header}>
-            <Text style={styles.headerText}>
-              {latestResult.result.name} (Tap to View)
+          <TouchableOpacity
+            onPress={goToPreviousResult}
+            disabled={currentIndex === 0}
+          >
+            <Text
+              style={[
+                styles.navigationText,
+                currentIndex === 0 && styles.disabledText,
+              ]}
+            >
+              Предыдущий рецепт
             </Text>
           </TouchableOpacity>
-
-          <Animated.View
-            style={[styles.collapsibleContent, { height: heightInterpolation }]}
-          >
-            {latestResult.uri && (
+          <View style={styles.cardContent}>
+            <Text style={styles.cardTitle}>
+              {currentResult?.result.name || "No Name"}
+            </Text>
+            {currentResult?.uri && (
               <Image
-                source={{ uri: latestResult.uri }}
+                source={{ uri: currentResult.uri }}
                 style={styles.image}
                 onError={() => Alert.alert("Error", "Failed to load image.")}
               />
             )}
-
-            <View style={styles.mealContainer}>
-              <Text style={styles.description}>
-                {latestResult.result.description}
+            <Text style={styles.description}>
+              {currentResult?.result.description || "No Description"}
+            </Text>
+            <View style={styles.nutritionContainer}>
+              <Text style={styles.nutritionText}>
+                Calories: {currentResult?.result.compound.calories || 0}
               </Text>
-              <View style={styles.nutritionContainer}>
-                <Text style={styles.nutritionText}>
-                  Calories: {latestResult.result.compound.calories}
-                </Text>
-                <Text style={styles.nutritionText}>
-                  Proteins: {latestResult.result.compound.proteins}
-                </Text>
-                <Text style={styles.nutritionText}>
-                  Fat: {latestResult.result.compound.fat}
-                </Text>
-                <Text style={styles.nutritionText}>
-                  Carbs: {latestResult.result.compound.carbohydrates}
-                </Text>
-              </View>
-              <Text style={styles.recipe}>
-                Recipe: {latestResult.result.recipe}
+              <Text style={styles.nutritionText}>
+                Proteins: {currentResult?.result.compound.proteins || 0}
+              </Text>
+              <Text style={styles.nutritionText}>
+                Fat: {currentResult?.result.compound.fat || 0}
+              </Text>
+              <Text style={styles.nutritionText}>
+                Carbs: {currentResult?.result.compound.carbohydrates || 0}
               </Text>
             </View>
-          </Animated.View>
+
+            <Text style={styles.recipe}>
+              Recipe: {currentResult?.result.recipe || "No Recipe"}
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={goToNextResult}
+            disabled={currentIndex === latestResult.length - 1}
+          >
+            <Text
+              style={[
+                styles.navigationText,
+                currentIndex === latestResult.length - 1 && styles.disabledText,
+              ]}
+            >
+              Следующий рецепт
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -140,7 +157,7 @@ export const HistoryScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#F0F0F0",
   },
   centeredContainer: {
     flex: 1,
@@ -149,61 +166,66 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    alignItems: "center",
     paddingVertical: 20,
+    height: 1000,
+    alignItems: "center",
   },
   entryContainer: {
+    width: "100%",
     marginBottom: 16,
-    width: "90%",
-    borderRadius: 12,
     backgroundColor: "#fff",
-    padding: 16,
+    borderRadius: 16,
+    padding: 20,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowRadius: 8,
+    elevation: 4,
   },
-  header: {
-    padding: 12,
-    backgroundColor: "#91BB45",
-    borderRadius: 8,
+  cardContent: {
     alignItems: "center",
-    justifyContent: "center",
   },
-  headerText: {
-    color: "#fff",
-    fontSize: 18,
+  cardTitle: {
+    fontSize: 22,
     fontWeight: "bold",
-  },
-  collapsibleContent: {
-    overflow: "hidden",
+    color: "#333",
+    marginBottom: 10,
   },
   image: {
     width: "100%",
-    height: 200,
-    borderRadius: 10,
-    marginTop: 8,
-  },
-  mealContainer: {
-    marginTop: 8,
+    height: 250,
+    borderRadius: 12,
+    marginVertical: 10,
   },
   description: {
     fontSize: 16,
-    marginBottom: 8,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 10,
   },
   nutritionContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 8,
+    flexDirection: "column",
+    justifyContent: "space-around",
+    width: "100%",
+    marginVertical: 10,
   },
   nutritionText: {
     fontSize: 14,
-    color: "#666",
+    color: "#444",
   },
   recipe: {
-    marginTop: 8,
     fontStyle: "italic",
+    color: "#888",
+    marginTop: 10,
+  },
+  navigationText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#91BB45",
+    paddingVertical: 10,
+  },
+  disabledText: {
+    color: "#ccc",
   },
 });
 

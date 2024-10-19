@@ -62,7 +62,7 @@ const ChatScreen: React.FC = () => {
         },
         {
           headers: {
-            Authorization: `Bearer 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`,
+            Authorization: `Bearer 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`,
             "Content-Type": "application/json",
           },
         }
