@@ -28,9 +28,12 @@ export const ProfileCard = () => {
       <View className="flex-row items-center justify-between">
         <Avatar />
         <View className="flex-1 ml-3">
-          <Text className="text-white text-2xl font-black">
+          {/* <Text className="text-white text-2xl font-black">
+            Hello, {userData?.user?.username}! 👋
+          </Text> */}
+          {/* <Text className="text-white text-2xl font-black">
             Привет, {userData?.user?.username}! 👋
-          </Text>
+          </Text> */}
           <MyTouchableOpacity
             className="text-white text-2xl font-black"
             onPress={() => handleLogout()}
