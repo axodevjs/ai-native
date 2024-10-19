@@ -5,7 +5,7 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AnalysisCard from "../../entities/AnalysisCard/analysis-card";
 import { Layout } from "../../widgets/ui/layout";
-import HistoryScreen from "../entities/HistoryCard/history-card";
+import { HistoryScreen } from "../entities/HistoryCard/history-card";
 
 export const ArScreen = () => {
   const [activeTab, setActiveTab] = useState("Analysis");

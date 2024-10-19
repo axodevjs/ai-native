@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { FlatList, ScrollView } from "react-native";
+import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import { ConsultationCard } from "../../entities/ConsulationCard/ConsultationCard";
 import { InsightCard } from "../../entities/InsightCard/InsightCard";
 import Text from "../../shared/ui/Text/Text";
@@ -18,7 +18,7 @@ const HomeScreen = () => {
 
   const renderInsightCard = ({ item, index }) => (
     <InsightCard
-      key={index}
+      key={item.id}
       title={item.title}
       value={item.value}
       bgColor={item.bgColor}
@@ -54,9 +54,56 @@ const HomeScreen = () => {
           margin="mt-4"
           screen="Ar"
         />
+        <Text style={styles.sectionHeader}>Virtual Consultant</Text>
+        <View style={styles.cardsContainer}>
+          <ConsultationCard
+            name="🤖Our Chatbot"
+            paragraph="Upcoming Consultations"
+            buttonText="Chat"
+            screen="Chat"
+          />
+          <ConsultationCard
+            name="🍔Food Analysis"
+            paragraph="Analyze your meal"
+            buttonText="Start"
+            margin="mt-4"
+            screen="Ar"
+          />
+        </View>
       </ScrollView>
     </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1, // Ensures the ScrollView takes up full screen height
+  },
+  contentContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 20,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#374151",
+    marginBottom: 8,
+    marginTop: 16,
+  },
+  flatListContainer: {
+    paddingHorizontal: 10,
+  },
+  sectionHeader: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#374151",
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  cardsContainer: {
+    gap: 6,
+    marginTop: 8, // Ensures vertical spacing between cards
+  },
+});
 
 export default HomeScreen;

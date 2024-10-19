@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   View,
   Image,
@@ -7,15 +7,14 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
-  LayoutAnimation,
   Platform,
   UIManager,
   Text,
+  Animated,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
-import Collapsible from "react-native-collapsible";
 
 // Enable layout animations on Android
 if (
@@ -26,37 +25,41 @@ if (
 }
 
 export const HistoryScreen = () => {
-  const [history, setHistory] = useState<any[]>([]);
+  const [latestResult, setLatestResult] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [activeSections, setActiveSections] = useState<number[]>([]);
+  const animatedValue = useRef(new Animated.Value(0)).current; // Only one value for latest result animation
 
-  // Load meal history from AsyncStorage
-  const loadMealHistory = async () => {
+  const loadLatestResult = async () => {
     try {
       const savedHistory = await AsyncStorage.getItem("mealHistory");
       const parsedHistory = savedHistory ? JSON.parse(savedHistory) : [];
       console.log("Loaded History:", parsedHistory);
-      setHistory(parsedHistory);
+
+      if (parsedHistory.length > 0) {
+        setLatestResult(parsedHistory[parsedHistory.length - 1]);
+      } else {
+        setLatestResult(null);
+        Alert.alert("No Results", "No recent results found.");
+      }
     } catch (error) {
-      console.error("Error loading meal history:", error);
-      Alert.alert("Error", "Failed to load meal history.");
+      console.error("Error loading latest result:", error);
     }
   };
 
-  // Toggle section visibility with animation
-  const toggleSection = (index: number) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setActiveSections((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
+  const toggleSection = () => {
+    const isExpanded = animatedValue._value === 1;
+    Animated.timing(animatedValue, {
+      toValue: isExpanded ? 0 : 1,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
   };
 
-  // Reload data when the screen gains focus
   useFocusEffect(
     useCallback(() => {
       const loadData = async () => {
         setIsLoading(true);
-        await loadMealHistory();
+        await loadLatestResult();
         setIsLoading(false);
       };
       loadData();
@@ -65,53 +68,70 @@ export const HistoryScreen = () => {
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.centeredContainer}>
         <ActivityIndicator size="large" color="#91BB45" />
       </SafeAreaView>
     );
   }
 
+  if (!latestResult) {
+    return (
+      <SafeAreaView style={styles.centeredContainer}>
+        <Text>No Meal History Available</Text>
+      </SafeAreaView>
+    );
+  }
+
+  const heightInterpolation = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 300], // Adjust based on content size
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {history.length > 0 ? (
-          history.map((entry, index) => (
-            <View key={entry.id || index} style={styles.entryContainer}>
-              <TouchableOpacity
-                onPress={() => toggleSection(index)}
-                style={styles.header}
-              >
-                <Text style={styles.headerText}>
-                  {entry.result.name} (Tap to View)
-                </Text>
-              </TouchableOpacity>
+        <View style={styles.entryContainer}>
+          <TouchableOpacity onPress={toggleSection} style={styles.header}>
+            <Text style={styles.headerText}>
+              {latestResult.result.name} (Tap to View)
+            </Text>
+          </TouchableOpacity>
 
-              <Collapsible collapsed={!activeSections.includes(index)}>
-                <Image
-                  source={{ uri: entry.uri }}
-                  style={styles.image}
-                  onError={() => Alert.alert("Error", "Failed to load image.")}
-                />
-                <View style={styles.mealContainer}>
-                  <Text style={styles.description}>
-                    {entry.result.description}
-                  </Text>
-                  <View style={styles.nutritionContainer}>
-                    <Text>Calories: {entry.result.compound.calories}</Text>
-                    <Text>Proteins: {entry.result.compound.proteins}</Text>
-                    <Text>Fat: {entry.result.compound.fat}</Text>
-                    <Text>Carbs: {entry.result.compound.carbohydrates}</Text>
-                  </View>
-                  <Text style={styles.recipe}>
-                    Recipe: {entry.result.recipe}
-                  </Text>
-                </View>
-              </Collapsible>
+          <Animated.View
+            style={[styles.collapsibleContent, { height: heightInterpolation }]}
+          >
+            {latestResult.uri && (
+              <Image
+                source={{ uri: latestResult.uri }}
+                style={styles.image}
+                onError={() => Alert.alert("Error", "Failed to load image.")}
+              />
+            )}
+
+            <View style={styles.mealContainer}>
+              <Text style={styles.description}>
+                {latestResult.result.description}
+              </Text>
+              <View style={styles.nutritionContainer}>
+                <Text style={styles.nutritionText}>
+                  Calories: {latestResult.result.compound.calories}
+                </Text>
+                <Text style={styles.nutritionText}>
+                  Proteins: {latestResult.result.compound.proteins}
+                </Text>
+                <Text style={styles.nutritionText}>
+                  Fat: {latestResult.result.compound.fat}
+                </Text>
+                <Text style={styles.nutritionText}>
+                  Carbs: {latestResult.result.compound.carbohydrates}
+                </Text>
+              </View>
+              <Text style={styles.recipe}>
+                Recipe: {latestResult.result.recipe}
+              </Text>
             </View>
-          ))
-        ) : (
-          <Text>No Meal History Available</Text>
-        )}
+          </Animated.View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -120,35 +140,44 @@ export const HistoryScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F5F5F5",
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   scrollContainer: {
     flexGrow: 1,
     alignItems: "center",
-    padding: 16,
+    paddingVertical: 20,
   },
   entryContainer: {
     marginBottom: 16,
     width: "90%",
-    borderRadius: 8,
+    borderRadius: 12,
     backgroundColor: "#fff",
-    padding: 12,
+    padding: 16,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
   },
   header: {
-    padding: 10,
+    padding: 12,
     backgroundColor: "#91BB45",
     borderRadius: 8,
     alignItems: "center",
+    justifyContent: "center",
   },
   headerText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
+  },
+  collapsibleContent: {
+    overflow: "hidden",
   },
   image: {
     width: "100%",
@@ -160,11 +189,17 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   description: {
-    fontSize: 14,
+    fontSize: 16,
     marginBottom: 8,
   },
   nutritionContainer: {
-    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 8,
+  },
+  nutritionText: {
+    fontSize: 14,
+    color: "#666",
   },
   recipe: {
     marginTop: 8,

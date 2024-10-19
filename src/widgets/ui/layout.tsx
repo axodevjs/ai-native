@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native";
 import { useStatusStore } from "../../entities/StatusTab/model/useStatusStore";
 import { StatusTabs } from "../../entities/StatusTab/StatusTab";
