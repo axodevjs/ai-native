@@ -2,10 +2,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { ScrollView, View } from "react-native";
+import { ConsultationCard } from "../../entities/ConsulationCard/ConsultationCard";
+import { InsightCard } from "../../entities/InsightCard/InsightCard";
 import Text from "../../shared/ui/Text/Text";
 import { Layout } from "../../widgets/ui/layout"; // Adjust path
-import { ConsultationCard } from "../entities/ConsulationCard/ConsultationCard";
-import { InsightCard } from "../entities/InsightCard/InsightCard";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
