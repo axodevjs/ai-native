@@ -2,6 +2,7 @@ import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
 import { Avatar } from "react-native-paper";
+import { useStatusStore } from "../../app/entities/StatusTab/model/useStatusStore";
 import { BadgeWithIcon } from "../../shared/ui/Badge/Badge";
 import Text from "../../shared/ui/Text/Text";
 
@@ -20,6 +21,8 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   isProMember,
   score,
 }) => {
+  const { setStatusTabVisible } = useStatusStore(); // Zustand store to check visibility
+
   return (
     <View className="w-[95%] ml-2 mt-16 p-4 bg-dark rounded-2xl">
       <View className="flex-row items-center justify-between">
@@ -32,7 +35,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             <BadgeWithIcon value={255} bgColor="#91BB45" margin="mb-2">
               <FontAwesome name="star" size={14} color="white" />
             </BadgeWithIcon>
-            <BadgeWithIcon value="Train" bgColor="#FFA500" margin="mb-2 ml-2">
+            <BadgeWithIcon
+              value="Train"
+              bgColor="#FFA500"
+              margin="mb-2 ml-2"
+              onPress={() => setStatusTabVisible(true)}
+            >
               <FontAwesome6 name="dumbbell" size={14} color="white" />
             </BadgeWithIcon>
           </View>

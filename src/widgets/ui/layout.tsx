@@ -1,6 +1,9 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { SafeAreaView } from "react-native";
+import { useStatusStore } from "../../app/entities/StatusTab/model/useStatusStore";
+import { StatusTabs } from "../../app/entities/StatusTab/StatusTab";
 import { SafeAreaView, ScrollView } from "react-native";
 import { BottomTab } from "../../features/ui/BottomTab";
 import { ProfileCard } from "../../features/ui/ProfileCard";
@@ -14,6 +17,7 @@ interface ILayout {
 
 export const Layout: React.FC<ILayout> = ({ children, isProfile, isBack }) => {
   const navigation = useNavigation();
+  const { isVisible } = useStatusStore(); // Zustand store to check visibility
 
   const handleNavigate = (screen: string) => {
     navigation.navigate(screen as never);
@@ -29,6 +33,7 @@ export const Layout: React.FC<ILayout> = ({ children, isProfile, isBack }) => {
           <FontAwesome name="chevron-left" size={24} color="black" />
         </MyTouchableOpacity>
       )}
+      {isVisible && <StatusTabs />}
       {isProfile && <ProfileCard />}
       {children}
       <BottomTab />
