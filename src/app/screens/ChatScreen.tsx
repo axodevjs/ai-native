@@ -62,7 +62,7 @@ const ChatScreen: React.FC = () => {
         },
         {
           headers: {
-            Authorization: `Bearer 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`,
+            Authorization: `Bearer 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`,
             "Content-Type": "application/json",
           },
         }
@@ -102,8 +102,9 @@ const ChatScreen: React.FC = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Layout isBack>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          className="flex-1"
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "padding"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 60 : -80}
         >
           <FlatList
             ref={flatListRef}

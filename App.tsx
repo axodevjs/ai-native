@@ -20,6 +20,7 @@ import Start from "./src/app/screens/StartScreen";
 import TrainingScreen from "./src/app/screens/TrainingScreen";
 import WeightScreen from "./src/app/screens/WeightScreen";
 import i18n from "./src/shared/i18n/i18n";
+import ResultScreen from "./src/app/screens/result-screen";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
