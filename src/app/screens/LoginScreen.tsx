@@ -32,7 +32,7 @@ export const Login = () => {
       <View style={styles.innerContainer} className="mt-24">
         <Text style={styles.title}>{t("login_title")}</Text>
         <Text style={styles.subtitle}>{t("login_message")}</Text>
-        <View style={styles.inputContainer} className="mt-16">
+        <View style={styles.inputContainer} className="mt-28">
           <Input
             placeholder={t("email_label")}
             value={email}
@@ -85,30 +85,6 @@ export const Login = () => {
               {t("forgot_password")}
             </Text>
           </MyTouchableOpacity>
-          <Button
-            mode="contained"
-            style={{
-              backgroundColor: "#91BB45",
-              width: "80%",
-              height: 50,
-              borderRadius: 50,
-              marginTop: 140,
-              justifyContent: "center",
-            }}
-            labelStyle={{ fontSize: 18, color: "white", textAlign: "center" }}
-            textColor="white"
-            onPress={login}
-            disabled={loading}
-          >
-            <Text
-              className="text-secondary text-lg"
-              weight="400"
-              family="Nunito"
-            >
-              {loading ? t("loading") : t("login_button")}
-            </Text>
-          </Button>
-
           <View
             style={styles.registerContainer}
             className="flex flex-row items-center gap-x-2"
