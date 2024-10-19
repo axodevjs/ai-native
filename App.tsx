@@ -16,6 +16,7 @@ import LoginScreen from "./src/app/screens/LoginScreen";
 import Registration from "./src/app/screens/RegistrationScreen";
 import ResetPassword from "./src/app/screens/reset-password";
 import Start from "./src/app/screens/StartScreen";
+import TrainingScreen from "./src/app/screens/TrainingScreen";
 import WeightScreen from "./src/app/screens/WeightScreen";
 import i18n from "./src/shared/i18n/i18n";
 import { ResultScreen } from "./src/app/screens/result-screen";
@@ -31,6 +32,7 @@ const AuthenticatedStack = () => (
     <AuthStack.Screen name="Achievements" component={AchievementsScreen} />
     <AuthStack.Screen name="Ar" component={ArScreen} />
     <AuthStack.Screen name="Result" component={ResultScreen} />
+    <AuthStack.Screen name="Training" component={TrainingScreen} />
   </AuthStack.Navigator>
 );
 
@@ -47,7 +49,7 @@ const UnauthenticatedStack = () => (
 );
 
 export default function App() {
-  const { loadToken, token, setToken } = useAuthStore();
+  const { loadToken, token, setToken, logout } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
   const [fontsLoaded] = useFonts({
     // Шрифты Nunito
